@@ -1,0 +1,319 @@
+@charset "utf-8";
+
+.carousel {
+    width: 73%;
+    height: auto;
+    /* margin: 0 0 0 auto; */
+}
+
+.findimg_one {
+    width: 100%;
+    height: auto;
+}
+
+.small_font {
+    margin: 5% 0.67% 0 0;
+    width: 0.85%;
+    height: 83%;
+}
+
+.Pink_border {
+    margin: 0 1.3% 0 0;
+    width: 0.8%;
+    height: auto;
+}
+
+.carousel_font {
+    margin: 10% 0 0 auto;
+    width: 7%;
+    height: 0.49%;
+}
+
+main {
+    margin: 0 5%;
+}
+
+.Infomation {
+    width: 70%;
+    height: 300px;
+    margin: 65px 0 100px auto;
+    /* background-color: bisque; */
+}
+
+.info_content {
+    height: 200px;
+    width: 180px;
+    background-color: beige;
+    border: 1px solid black;
+}
+
+.Infomation a {
+    color: red;
+    border: 2px solid pink;
+    background-color: white;
+    padding: 6px;
+    display: block;
+    margin: 20px 16px 0 auto;
+    width: 18%;
+}
+
+.info_heading {
+    margin: 0 0 20px 0;
+}
+
+.info_heading img {
+    width: 40%;
+    height: 2px;
+    margin-top: 1.7%;
+}
+
+.info_heading h1 {
+    width: 20%;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.find_heading {
+    width: 70%;
+    margin: 0 0 20px auto;
+}
+
+.find_heading img {
+    width: 40%;
+    height: 2px;
+    margin-top: 1.7%;
+}
+
+.find_heading h1 {
+    width: 20%;
+    font-size: 2rem;
+    text-align: center;
+}
+
+/* 横スクロール */
+
+@keyframes infinity-scroll-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.scroll-infinity__wrap {
+    display: flex;
+    overflow: hidden;
+}
+
+.scroll-infinity__list {
+    display: flex;
+    list-style: none;
+    padding: 0
+}
+
+.scroll-infinity__list--left {
+    animation: infinity-scroll-left 40s infinite linear 0.5s both;
+}
+
+.scroll-infinity__item {
+    width: calc(100vw / 6);
+}
+
+.scroll-infinity__item>img {
+    width: 100%;
+}
+
+.items1,.items2{
+    height: 50%;
+}
+.items2{
+    margin: 0 0.2rem;
+}
+
+.scroll-infinity__item{
+    margin: 0.2rem;
+}
+
+/* マウスがホバーしたらストップする */
+.scroll-infinity__wrap:hover .scroll-infinity__list--left{
+    animation-play-state: paused;
+}
+
+/* ---------------------- */
+
+
+.box {
+    margin: 2rem 0 auto auto;
+}
+
+.kinds {
+    background-image: url("../img/top/bg-content.png");
+    width: 52.5rem;
+    height: 44rem;
+    margin: 5rem 0 auto auto;
+    background-size: 100% auto;
+}
+
+.kinds h1 {
+    font-size: 2rem;
+}
+
+.kinds h2 {
+    font-size: 1.2rem;
+}
+
+.kinds a {
+    border: 1.5px solid #DE6490;
+    border-radius: 10px;
+    color: #DE6490;
+    padding: 5px 13px;
+    font-size: 14px;
+}
+
+.kinds a:hover {
+    background-color: #DE6490;
+    color: white;
+}
+
+.experience {
+    margin-top: 1.9rem;
+}
+
+.experience h2 {
+    display: inline-flex;
+}
+
+.e_l {
+    margin-top: 0.5rem;
+    margin-left: 0.6rem;
+    width: 8.5rem;
+    height: 8.5rem;
+}
+
+.e_r {
+    width: 10rem;
+    margin-left: 4.5rem;
+    position: relative;
+    bottom: 1.3rem;
+}
+
+.wrap {
+    width: 15rem;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.wrap img {
+    width: 6rem;
+    height: 6rem;
+    margin: 0.2rem;
+}
+
+.e_text {
+    width: 9rem;
+    margin-left: -1rem;
+    margin-top: 1rem;
+}
+
+.e_text p {
+    font-size: 0.7rem;
+}
+
+.e_text div {
+    margin-top: 2rem;
+}
+
+.food,
+.hotel {
+    margin-left: 1rem;
+}
+
+.f_text {
+    width: 11rem;
+    margin: 2rem 0 auto 1rem;
+}
+
+.f_text p {
+    font-size: 0.7rem;
+}
+
+.f_text div {
+    margin-top: 2rem;
+}
+
+.flexwrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.food {
+    margin-left: 2rem;
+}
+
+.f_l {
+    width: 15rem;
+    height: 15rem;
+    position: relative;
+    bottom: 3rem;
+}
+
+.f_r {
+    position: relative;
+    bottom: 2rem;
+    left: 3rem;
+    width: 8rem;
+    height: 8rem;
+}
+
+.w_l {
+    width: 10rem;
+    height: 7.5rem;
+}
+
+.w_text {
+    width: 11.5rem;
+    margin-left: 1rem;
+    margin-top: 2.5rem;
+}
+
+.w_text p {
+    font-size: 0.7rem;
+}
+
+.w_text div {
+    margin-top: 2rem;
+}
+
+.hotel {
+    margin-left: 3rem;
+    position: relative;
+    bottom: 5rem;
+}
+
+.h_r {
+    width: 10rem;
+    height: auto;
+    margin-left: 3.7rem;
+}
+
+.h_l {
+    width: 14rem;
+    height: auto;
+    position: relative;
+    bottom: 1.8rem;
+}
+
+.h_text {
+    margin-top: 3rem;
+    margin-left: 1.3rem;
+}
+
+.h_text p {
+    font-size: 0.7rem;
+}
+
+.h_text div {
+    margin-top: 4rem;
+}
