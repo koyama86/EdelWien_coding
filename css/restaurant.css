@@ -1,0 +1,418 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* flex */
+  .flexRow {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .flexCol {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* font */
+  
+  .KiwiMaru {
+    font-family: "Kiwi Maru";
+  }
+  
+  /* margin */
+  
+  .MAuto {
+    margin: auto;
+  }
+  
+  /* position */
+  .PositionRelative {
+    position: relative;
+  }
+  
+  /*  */
+  body {
+    background-color: #f5f5f5;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .ContactLink {
+    width: 300px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 24px;
+    background-color: rgb(255, 255, 255);
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 4;
+    position: fixed;
+  }
+  
+  .Container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: flex-start;
+  
+    .Article {
+      width: 85%;
+    }
+  
+    .Side {
+      width: 15%;
+    }
+  }
+  
+  .Side {
+    background-color: #de6490;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+  
+  .MainWidth {
+    width: 1300px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  
+  section + section {
+    margin-top: 120px;
+  }
+  
+  /* タイトル部分 */
+  
+  .TitleLeft {
+    margin: 100px auto auto 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+  .TitleMainText {
+    font-size: 64px;
+    color: #de6490;
+  }
+  
+  .TitleSubText {
+    font-size: 28px;
+  }
+
+  #Slideshow {
+    width: 960px;
+    height: 500px;
+    border-radius: 88px;
+    margin-top: 120px;
+    overflow: hidden;
+  }
+  
+  .TitleImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .Hidden {
+    display: none;
+  }
+  
+  .TitleMark {
+    width: 92px;
+    height: 92px;
+    object-fit: cover;
+    position: absolute;
+    right: 0;
+    top: 110px;
+  }
+  
+  .Catchcopy {
+    margin-top: 120px;
+    font-size: 48px;
+    text-align: center;
+  }
+  
+  .SlideBtnBox {
+    justify-content: right;
+    padding-right: 80px;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .SlideBtn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    outline: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: #de6490 2px solid;
+    background-color: #ffffff;
+    margin: 20px 8px;
+  }
+  
+  .BtnActive {
+    background-color: #de6490;
+  }
+  
+  /* 詳細 */
+  
+  .DetailTitle {
+    line-height: 55px;
+    margin-top: 120px;
+    font-size: 48px;
+    width: 100%;
+  }
+  
+  .DetailTitle span {
+    font-size: 40px;
+  }
+  
+  .DetailItems {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  .DetailText {
+    width: 600px;
+    margin-top: 40px;
+    font-size: 18.5px;
+  }
+  
+  .DetailImgs {
+    width: 644px;
+    height: 476px;
+    position: relative;
+  }
+  
+  .DetailImgs .img1 {
+    width: 584px;
+    height: 364px;
+    object-fit: cover;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 12px;
+    border-radius: 18px;
+  }
+  
+  .DetailImgs .shadow1 {
+    width: 500px;
+    height: 292px;
+    background-color: #ffb49c;
+    position: absolute;
+    top: 100px;
+    right: 0;
+    border-radius: 18px;
+  }
+  
+  .DetailImgs .img2 {
+    width: 172px;
+    height: 172px;
+    object-fit: cover;
+    z-index: 3;
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    border-radius: 10px;
+  }
+  
+  .DetailImgs .shadow2 {
+    width: 172px;
+    height: 172px;
+    background-color: #ffb49c;
+    z-index: 2;
+    position: absolute;
+    bottom: 0;
+    left: 12px;
+    border-radius: 10px;
+  }
+  
+  /* プラン */
+  .Plan {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .PlanTitle {
+    width: 100%;
+    text-align: center;
+    color: #de6490;
+    margin-bottom: 28px;
+  }
+  
+  .Plan h1 {
+    font-size: 48px;
+  }
+  
+  .PlanTitleLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  
+    .UnderLine1 {
+      width: 69%;
+    }
+    .UnderLine2 {
+      width: 30%;
+    }
+  }
+  
+  .UnderLine1,
+  .UnderLine2 {
+    border-top: 1px solid #de6490;
+    height: 1px;
+  }
+  
+  .PlanDetail {
+    border: 4px solid #de6490;
+    border-radius: 40px;
+    padding: 40px 100px;
+    margin-top: 40px;
+  }
+  
+  .PlanDetail h1 {
+    text-align: right;
+    font-family: "Kiwi Maru";
+  }
+  
+  .PlanDetail img {
+    width: 350px;
+    height: 370px;
+    border-radius: 36px;
+    object-fit: cover;
+  }
+  
+  .PlanItem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  .PlanItem + .PlanItem {
+    margin-top: 60px;
+  }
+  
+  .PlanItem h1 + table {
+    margin-top: 80px;
+  }
+  
+  .PlanItem tr {
+    height: 40px;
+    padding-top: 20px;
+    font-size: 18.5px;
+  }
+
+  .PlanItem th {
+    font-weight: 400;
+    width: 80px;
+  }
+  
+  .PlanItem td {
+    width: 70px;
+  }
+  
+  .PlanItem td:last-child {
+    width: 370px;
+  }
+  
+  /* GoogleMap */
+  .ItemTitle {
+    font-size: 48px;
+    justify-content: center;
+  }
+
+  .GoogleMap {
+    width: 1300px;
+    height: 600px;
+    margin-top: 40px;
+  }
+  
+  /* footer */
+  footer {
+    background-color: #a1a1a1;
+    padding-bottom: 120px;
+    color: #ffffff;
+    margin-top: 40px;
+    width: 100%;
+  }
+  
+  .FooterTable {
+    margin-left: 156px;
+  }
+  
+  .FooterItem {
+    font-size: 32px;
+  }
+  
+  .Data {
+    padding: 20px 0 40px 0;
+  }
+  
+  .FooterLinks {
+    margin-right: 32px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .FooterLink {
+    font-size: 20px;
+    margin: 0 20px;
+  }
+  
+  /* タイトルの左右両端の線 */
+  .MapBorder,
+  .DetailBorder {
+    display: flex;
+    text-align: center;
+    position: relative;
+  }
+  
+  .InstagramBorder::before,
+  .MapBorder::before {
+    right: 0;
+  }
+  
+  .MapBorder::after,
+  .DetailBorder {
+    left: 0;
+  }
+  
+  .DetailBorder::after {
+    width: 67%;
+    position: absolute;
+    top: 48%;
+    content: "";
+    background-size: 24px 4px;
+    background-image: linear-gradient(to right, #de6490 14px, transparent 10px);
+    background-repeat: repeat-x;
+    padding: 1rem;
+    right: 0;
+  }
+  
+  .MapBorder::before,
+  .MapBorder::after {
+    width: 40%;
+    position: absolute;
+    top: 48%;
+    content: "";
+    background-size: 24px 4px;
+    background-image: linear-gradient(to right, #de6490 14px, transparent 10px);
+    background-repeat: repeat-x;
+    padding: 1rem;
+  }
+  
