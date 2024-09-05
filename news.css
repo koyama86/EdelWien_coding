@@ -1,0 +1,154 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 16%;
+  font-family: "Kiwi Maru", serif;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #de6490;
+}
+
+.sidebar h4 span{
+  font-size: 12px;
+  width: 70%;
+  display: block;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  border-bottom: white 1px dashed;
+}
+
+.sidebar .icon {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.sidebar span {
+  font-size: 18px;
+}
+
+.sidebar ul {
+  width: 100%;
+  padding: 1rem;
+}
+.sidebar ul li{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+}
+.sidebar ul li img {
+  text-align: right;
+}
+
+.flexmain {
+  display: flex;
+  justify-content: space-between;
+}
+
+.yoko {
+  display: flex;
+  justify-content: space-between;
+
+
+}
+
+.h1 {
+  font-family: "Kiwi Maru", serif;
+  font-weight: 400;
+  font-style: normal;
+  width: 50%;
+  margin: 2rem 0 2rem 0;
+  font-size: 52px;
+  display: block;
+  text-align: right;
+
+}
+
+/* .info {
+  margin: 0 10px 10px 0;
+  padding: 3px 0 3px 0;
+  width: 40%;
+  color: white;
+  background-color: #de6490;
+} */
+
+.news {
+  /* cssは固定・触らなくていい */
+  text-align: center;
+  margin-left: 2rem;
+  width: 30%;
+  color: white;
+  background-color: #de6490;
+
+}
+
+.osirase {
+  margin-right: 3%;
+  width: 22%;
+  margin-bottom: 0.8rem;
+  /* border-radius: 60px; */
+}
+
+.osirase a {
+  font-size: 12px;
+}
+
+.osirase:hover {
+  opacity: 0.7;
+  /* background-color: #b1cef4; */
+  /* box-shadow: 0 0 rgb(236, 236, 236); */
+  transform: translateY(5px);
+}
+
+.osirase p {
+  margin-bottom: 20px;
+}
+
+.event {
+  width: 80%;
+  /* margin: 0 2rem 0 0; */
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.event p {
+  overflow-wrap: anywhere;
+  padding: 0.4rem;
+}
+
+.event img {
+  border-radius: 2rem;
+  object-fit: cover;
+  width: 100%;
+  height: 176px;
+  padding: 1em;
+}
+
+footer {
+  margin: 0.8rem 0 0 auto;
+  /* margin-left: auto; */
+  /* justify-content: right; */
+  background-color: darkgrey;
+  width: 90%;
+}
+
+footer ul {
+  justify-content: center;
+  display: flex;
+}
+
+footer li {
+  font-size: 12px;
+  color: white;
+  margin: 60px 12px 60px 30px;
+}
+
+footer p {
+  text-align: center;
+}
