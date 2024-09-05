@@ -21,12 +21,41 @@
     </nav>
 
     <div class="flex">
-        <img class="carousel_font" src="../img/top/carousel_font.png" alt="">
-        <img class="Pink_border" src="../img/top/Pink_border.png" alt="">
-        <img class="small_font" src="../img/top/holiday.png" alt="">
-        <div class="carousel">
-            <img class="findimg_one" src="../img/top/find.png" alt="">
-        </div>
+        <!-- carousel以外 -->
+          <div class="FlexRow">
+            <!-- 縦の横向き文字 -->
+            <div id="MainTextBox">
+              <h1 class="MainText">たいけん</h1>
+              <h1 class="MainText ThreeChar Hidden">とまる</h1>
+              <h1 class="MainText ThreeChar Hidden">たべる</h1>
+              <h1 class="MainText Hidden">あじわう</h1>
+            </div>
+
+            <!-- 点線 -->
+            <div class="DottedLine"></div>
+            <div class="DottedLine"></div>
+
+            <!-- 英語 -->
+            <p class="TextVertical">Holiday & Edelwien Sport</p>
+          </div>
+
+          <!-- caroucel -->
+          <div id="CarouselBox">
+            <!-- 画像 -->
+            <img src="img/carousel1.jpg" alt="grass"/>
+            <img src="img/carousel2.jpg" alt="hotel" class="Hidden" />
+            <img src="img/carousel3.jpg" alt="restaurant" class="Hidden"/>
+            <img src="img/carousel4.jpg" alt="wien" class="Hidden"/>
+            <!-- プログレスバー -->
+            <progress value="0" max="100" id="Progress"></progress>
+            <!-- ボタン -->
+            <div id="CarouselBtn" class="CarouselBtnBox">
+              <button type="button" class="CarouselBtn BtnActive"></button>
+              <button type="button" class="CarouselBtn"></button>
+              <button type="button" class="CarouselBtn"></button>
+              <button type="button" class="CarouselBtn"></button>
+            </div>
+          </div>
     </div>
     <main>
         <!-- お知らせ -->
