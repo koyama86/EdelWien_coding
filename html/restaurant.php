@@ -1,3 +1,7 @@
+<?php 
+$a = "Example.png";
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -96,7 +100,7 @@
             <div class="PlanDetail">
               <div class="PlanItem">
                 <!-- 写真(左側) -->
-                <img src="../img/restaurant/restaurantPlan1.png" alt="restaurantPlan1" />
+                <img src=" <?php $a ?>" alt="restaurantPlan1" />
                 <!-- 内容詳細(右側) -->
                 <div class="flexCol">
                   <h1>チキンの照り焼きセット</h1>
@@ -121,7 +125,7 @@
               </div>
               <div class="PlanItem">
                 <!-- 写真(左側) -->
-                <img src="../img/restaurant/restaurantPlan2.png" alt="restaurantPlan2" />
+                <img src= "<?php  ?>" alt="restaurantPlan2" />
                 <!-- 内容詳細(右側) -->
                 <div class="flexCol">
                   <h1>特性ナポリタンセット</h1>
@@ -146,7 +150,7 @@
               </div>
               <div class="PlanItem">
                 <!-- 写真(左側) -->
-                <img src="../img/restaurant/restaurantPlan3.png" alt="restaurantPlan3" />
+                <img src="<?php   ?>" alt="restaurantPlan3" />
                 <!-- 内容詳細(右側) -->
                 <div class="flexCol">
                   <h1>豚の生姜焼きセット</h1>
