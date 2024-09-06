@@ -159,7 +159,6 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
             display: none;
         }
     </style>
-</head>
 
 <body>
     <form action="notice_register.php" method="post" enctype="multipart/form-data">
