@@ -154,7 +154,11 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 
 <body>
     <form action="notice_register.php" method="post" enctype="multipart/form-data">
@@ -170,22 +174,25 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
             <option value="event">イベント</option>
         </select><br>
 
-        <!-- detail -->
-        <label>詳細</label>
-        <input type="text" name="subtitle0"><br>
-        <input type="file" name="image1"><br>
-        <input type="text" name="text2"><br>
-        <input type="text" name="text5"><br>
-        <input type="file" name="image8"><br>
+        <!-- detial -->
+        <div id="Box0">
+            <select onchange="selectContent(0)">
+                <option disabled selected>形式を選択してください</option>
+                <option value="subtitle">サブタイトル</option>
+                <option value="text">テキスト</option>
+                <option value="image">画像</option>
+            </select>
+        </div>
 
-        <!-- detail(作成されたinput)の数 -->
-        <input type="hidden" name="detail_cnt" value="9">
+        <!-- detail_cnt -->
+        <input type="hidden" id="detail_cnt" name="detail_cnt" value="0">
 
         <!-- button -->
         <input type="submit" value="未公開" name="unreleased">
         <input type="submit" value="公開" name="released">
     </form>
 
+    <script src="js/notice_register.js" defer></script>
 </body>
 
 </html>
