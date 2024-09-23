@@ -1,11 +1,131 @@
 @charset "utf-8";
 
+/* carousel after */
+.FlexRow {
+    display: flex;
+    flex-direction: row;
+  }
+
+.TitleBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
+  
+  /* 縦並びの横文字 */
+  #MainTextBox {
+    width: 150px;
+    height: 860px;
+    position: relative;
+  }
+  
+  .MainText {
+    color: #de6490;
+    font-size: 128px;
+    font-family: "Kiwi Maru";
+    transform: rotate(-90deg);
+    white-space: nowrap;
+    position: absolute;
+    left: -180px;
+    bottom: 180px;
+  }
+
+  .ThreeChar {
+    left: -112px;
+    bottom: 112px;
+  }
+  
+  /* 二重点線 */
+  .DottedLine {
+    width: 16px;
+    height: 860px;
+    background-size: 4px 24px;
+    background-image: linear-gradient(to bottom, #de6490 12px, transparent 12px);
+    background-repeat: repeat-y;
+  }
+  
+  /* 縦文字 */
+  .TextVertical {
+    color: #de6490;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    margin: 4rem 1rem 0 0;
+  }
+  
+  /* carousel */
+  #CarouselBox {
+    width: 85%;
+    height: 860px;
+    position: relative;
+    border-radius: 36px;
+    overflow: hidden;
+  }
+  
+  #CarouselBox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .Hidden {
+    display: none;
+  }
+  
+  /* crousel progressbar */
+  progress {
+    width: 79%;
+    height: 12px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    -webkit-appearance: none;
+  }
+  
+  ::-webkit-progress-value {
+    background-color: #de6490;
+  }
+  
+  /* crousel bottun */
+  .CarouselBtnBox {
+    width: 18%;
+    background-color: #f5f5f5;
+    border-top-left-radius: 30px;
+    justify-content: right;
+    z-index: 3;
+    position: absolute;
+    right: 0;
+    top: 820px;
+    padding-left: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+  }
+  
+  .CarouselBtn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: block;
+    outline: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: #de6490 2px solid;
+    background-color: #ffffff;
+    margin: 20px 8px 4px 8px;
+  }
+  
+  .BtnActive {
+    background-color: #de6490;
+  }
+
+/* carousel before  */
+
 .carousel {
     width: 73%;
     height: auto;
     /* margin: 0 0 0 auto; */
 }
-
 .findimg_one {
     width: 100%;
     height: auto;
@@ -28,6 +148,7 @@
     width: 7%;
     height: 0.49%;
 }
+
 
 /* .Infomation,
 .kinds {
