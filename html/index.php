@@ -1,4 +1,3 @@
-
 <?php
 //SQL文 降順にデータを8つ取得するsql文
 $sql = "SELECT * FROM テーブル名 ORDER BY id DEC LIMIT 8 ";
@@ -20,7 +19,7 @@ function h($str)
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 
 <head>
     <meta charset="UTF-8">
@@ -33,6 +32,13 @@ function h($str)
     <!-- css読み込む -->
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"> -->
     <link rel="stylesheet" type="text/css" href="../css/indexslide.css">
+    <!-- font: Kiwi Maru -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
 </head>
 
@@ -41,14 +47,56 @@ function h($str)
 
     </nav>
 
-    <div class="flex">
+    <!-- タイトル部分 -->
+    <div class="TitleBox">
+        <!-- carousel以外 -->
+        <div class="FlexRow">
+            <!-- 縦の横向き文字 -->
+            <div id="MainTextBox">
+                <h1 class="MainText">たいけん</h1>
+                <h1 class="MainText ThreeChar Hidden">とまる</h1>
+                <h1 class="MainText ThreeChar Hidden">たべる</h1>
+                <h1 class="MainText Hidden">あじわう</h1>
+            </div>
+
+            <!-- 点線 -->
+            <div class="DottedLine"></div>
+            <div class="DottedLine"></div>
+
+            <!-- 英語 -->
+            <p class="TextVertical">Holiday & Edelwien Sport</p>
+        </div>
+
+        <!-- caroucel -->
+        <div id="CarouselBox">
+            <!-- 画像 -->
+            <img src="../img/carousel/carousel1.jpg" alt="grass" />
+            <img src="../img/carousel/carousel2.jpg" alt="hotel" class="Hidden" />
+            <img src="../img/carousel/carousel3.jpg" alt="restaurant" class="Hidden" />
+            <img src="../img/carousel/carousel4.jpg" alt="wien" class="Hidden" />
+            <!-- プログレスバー -->
+            <progress value="0" max="100" id="Progress"></progress>
+        </div>
+        <!-- ボタン -->
+        <div id="CarouselBtn" class="CarouselBtnBox">
+            <button type="button" class="CarouselBtn BtnActive"></button>
+            <button type="button" class="CarouselBtn"></button>
+            <button type="button" class="CarouselBtn"></button>
+            <button type="button" class="CarouselBtn"></button>
+        </div>
+    </div>
+
+    <!-- 仮で作ってくれたもの -->
+
+    <!-- <div class="flex">
         <img class="carousel_font" src="../img/top/carousel_font.png" alt="">
         <img class="Pink_border" src="../img/top/Pink_border.png" alt="">
         <img class="small_font" src="../img/top/holiday.png" alt="">
         <div class="carousel">
             <img class="findimg_one" src="../img/top/find.png" alt="">
         </div>
-    </div>
+    </div> -->
+
     <main>
         <!-- お知らせ -->
         <div class="Infomation">
@@ -69,10 +117,9 @@ function h($str)
                         echo '<p class="samll_content">' . $result[$i]["content"] . '</p>';
                         echo '<p class="date" >' . $result[$i]["date"] . '</p>';
                         echo '</div>';
-
                     }
                     ?>
-                </div>                    
+                </div>
             </div>
             <img id="button" class="button" src="../img/find/button.png" alt="">
             <a href="" class="">一覧はこちら></a>
@@ -243,13 +290,11 @@ function h($str)
 
 
     <!-- script -->
+     <script src="js/carousel.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
-        
-        
-
         const button = document.getElementById("button");
 
         const seed = document.getElementById("seed");
@@ -259,27 +304,27 @@ function h($str)
         console.log(seed)
 
         // const x_content = document.getElementsByClassName("x_content")
-        button.addEventListener("click",event=>{//クリックしたら
+        button.addEventListener("click", event => { //クリックしたら
 
             // for文でinfo_contentにcssのクラスを付与
             for (let i = 0; i < info_content.length; i++) {
                 // seed[i].classList.add(x_content)
                 info_content[i].classList.add("x_content");
             }
-            button.style="pointer-events:none";
+            button.style = "pointer-events:none";
             // 1秒後にcssを削除
-            setTimeout(()=>{
+            setTimeout(() => {
                 for (let i = 0; i < info_content.length; i++) {
-                // seed[i].classList.add(x_content)
-                info_content[i].classList.remove("x_content");
-                // seed.removeChild(info_content[0])
-            }
-            seed.appendChild(info_content[0]);
-            button.style="";
-            },1000)
+                    // seed[i].classList.add(x_content)
+                    info_content[i].classList.remove("x_content");
+                    // seed.removeChild(info_content[0])
+                }
+                seed.appendChild(info_content[0]);
+                button.style = "";
+            }, 1000)
 
         })
-            
+
 
 
 
@@ -287,35 +332,35 @@ function h($str)
 
 
 
-            // let A = 0;
-            // let B = 1;
-            // let C = 2;
-            // let D = 3;
-            // let E = 4;
-            // let F = 5;
-            // let G = 6;
-            // let H = 7;
-            // let I = 0;
+        // let A = 0;
+        // let B = 1;
+        // let C = 2;
+        // let D = 3;
+        // let E = 4;
+        // let F = 5;
+        // let G = 6;
+        // let H = 7;
+        // let I = 0;
 
         // button.addEventListener("click",event =>{
-            // I = A
-            // A = B
-            // B = C
-            // C = D
-            // D = E
-            // E = F
-            // F = G
-            // G = H
-            // H = I
+        // I = A
+        // A = B
+        // B = C
+        // C = D
+        // D = E
+        // E = F
+        // F = G
+        // G = H
+        // H = I
 
-            // let number = [A,B,C,D];
+        // let number = [A,B,C,D];
 
-            // fetch("./index.php",{
-            // // 送信するときのオプション(ルール)を加えられる
-            // method: "POST",
-            // //ボディメッセージにformDataのインスタンスを渡すことでフォームの内容が送信される
-            // body: number,
-            // })
+        // fetch("./index.php",{
+        // // 送信するときのオプション(ルール)を加えられる
+        // method: "POST",
+        // //ボディメッセージにformDataのインスタンスを渡すことでフォームの内容が送信される
+        // body: number,
+        // })
         // })
 
         // let js_contents = {
@@ -351,7 +396,7 @@ function h($str)
         //             set = 1;
         //             number = set;
         //         }
-                
+
         //         // js_contents から動的に値を取得して tempContents に設定
         //         tempContents[number] = js_contents[count];
         //         count += 1;
@@ -382,7 +427,7 @@ function h($str)
         //         console.error('Error:', error);
         //     });
         // });
-            
+
         // let img1 = document.querySelector(".img1")
 
         // let js_content1 = <?php echo $php_content1 ?>;
@@ -412,11 +457,10 @@ function h($str)
         //         eval(js_content + number) = eval(js_content + count);
         //         count += 1;
         //         number += 1;
-                
+
 
         //     }
         // })
-
     </script>
 </body>
 
