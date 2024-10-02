@@ -18,8 +18,6 @@ function h($str)
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -169,7 +167,6 @@ function h($str)
                     </ul>
                 </div>
             </div>
-
         </div>
 
 
