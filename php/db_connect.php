@@ -6,7 +6,7 @@ $user = "root";
 // パスワード名
 $pass = "";
 // データベース名
-$database = "edelwein-sport";
+$database = "edelwien_coding";
 // サーバー名
 $server = "localhost:3308";
 
