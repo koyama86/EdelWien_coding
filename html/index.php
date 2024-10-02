@@ -16,9 +16,8 @@ function h($str)
     return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }
 
-
-
 ?>
+
 
 
 <!DOCTYPE html>
@@ -97,23 +96,24 @@ function h($str)
 
             <div class="info">
                 <div class="flex w-200" id="seed">
-                    <?php
-                    if (isset($result) && is_array($result)) {
-                        for ($i = 0; $i < count($result); $i++) {
-                            echo '<div class="info_content">';
-                            echo '<img class="img" src="' . h($result[$i]["path"]) . '" alt="">';
-                            echo '<p class="small_info">' . h($result[$i]["heading"]) . '</p>';
-                            echo '<p class="small_content">' . h($result[$i]["content"]) . '</p>';
-                            echo '<p class="date">' . h($result[$i]["date"]) . '</p>';
-                            echo '</div>';
-                        }
-                    }
-                    ?>
+                    <?php if (isset($result) && count($result) > 0): ?>
+                        <?php foreach ($result as $row): ?>
+                            <div class="info_content">
+                                <img class="img" src="<?= h($row['path']) ?>" alt="">
+                                <p class="small_info"><?= h($row['heading']) ?></p>
+                                <p class="small_content"><?= h($row['content']) ?></p>
+                                <p class="date"><?= h($row['date']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>お知らせがありません。</p>
+                    <?php endif; ?>
                 </div>
             </div>
             <img id="button" class="button" src="../img/find/button.png" alt="">
-            <a href="" class="">一覧はこちら></a>
+            <a href="">一覧はこちら></a>
         </div>
+
 
         <!-- 見つける -->
         <div class="find">

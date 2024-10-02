@@ -4,22 +4,22 @@
 .FlexRow {
     display: flex;
     flex-direction: row;
-  }
+}
 
 .TitleBox {
     display: flex;
     flex-direction: row;
     justify-content: end;
-  }
-  
-  /* 縦並びの横文字 */
-  #MainTextBox {
+}
+
+/* 縦並びの横文字 */
+#MainTextBox {
     width: 150px;
     height: 860px;
     position: relative;
-  }
-  
-  .MainText {
+}
+
+.MainText {
     color: #de6490;
     font-size: 128px;
     font-family: "Kiwi Maru";
@@ -28,65 +28,65 @@
     position: absolute;
     left: -180px;
     bottom: 180px;
-  }
+}
 
-  .ThreeChar {
+.ThreeChar {
     left: -112px;
     bottom: 112px;
-  }
-  
-  /* 二重点線 */
-  .DottedLine {
+}
+
+/* 二重点線 */
+.DottedLine {
     width: 16px;
     height: 860px;
     background-size: 4px 24px;
     background-image: linear-gradient(to bottom, #de6490 12px, transparent 12px);
     background-repeat: repeat-y;
-  }
-  
-  /* 縦文字 */
-  .TextVertical {
+}
+
+/* 縦文字 */
+.TextVertical {
     color: #de6490;
     writing-mode: vertical-lr;
     text-orientation: upright;
     margin: 4rem 1rem 0 0;
-  }
-  
-  /* carousel */
-  #CarouselBox {
+}
+
+/* carousel */
+#CarouselBox {
     width: 85%;
     height: 860px;
     position: relative;
     border-radius: 36px;
     overflow: hidden;
-  }
-  
-  #CarouselBox img {
+}
+
+#CarouselBox img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+}
 
-  .Hidden {
+.Hidden {
     display: none;
-  }
-  
-  /* crousel progressbar */
-  progress {
+}
+
+/* crousel progressbar */
+progress {
     width: 79%;
     height: 12px;
     position: absolute;
     bottom: 0;
     left: 0;
     -webkit-appearance: none;
-  }
-  
-  ::-webkit-progress-value {
+}
+
+::-webkit-progress-value {
     background-color: #de6490;
-  }
-  
-  /* crousel bottun */
-  .CarouselBtnBox {
+}
+
+/* crousel bottun */
+.CarouselBtnBox {
     width: 18%;
     background-color: #f5f5f5;
     border-top-left-radius: 30px;
@@ -99,9 +99,9 @@
     display: flex;
     flex-direction: row;
     justify-content: start;
-  }
-  
-  .CarouselBtn {
+}
+
+.CarouselBtn {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -113,13 +113,13 @@
     border: #de6490 2px solid;
     background-color: #ffffff;
     margin: 20px 8px 4px 8px;
-  }
-  
-  .BtnActive {
-    background-color: #de6490;
-  }
+}
 
-/* carousel before  */
+.BtnActive {
+    background-color: #de6490;
+}
+
+/* carousel before */
 
 .carousel {
     width: 73%;
@@ -149,12 +149,6 @@
     height: 0.49%;
 }
 
-
-/* .Infomation,
-.kinds {
-    margin: 0 5%;
-} */
-
 main {
     margin: 0 5%;
     /* overflow: hidden; */
@@ -175,7 +169,7 @@ main {
     overflow: hidden;
 }
 
-.info>.w-200{
+.info>.w-200 {
     width: 200%;
     height: 100%;
 }
@@ -239,16 +233,14 @@ main {
     animation: info_content 1s forwards;
 }
 
-@keyframes info_content{
-    from{
+@keyframes info_content {
+    from {
         transform: translateX(0);
     }
-    to{
+    to {
         transform: translateX(calc(-100% - 16px));
     }
 }
-
-
 
 .Infomation a {
     color: red;
@@ -273,26 +265,6 @@ main {
 }
 
 .info_heading h1 {
-    width: 20%;
-    font-size: x-large;
-    text-align: center;
-}
-
-/* ---------------------------------------- */
-
-
-.find_heading {
-    width: 70%;
-    margin: 0 0 20px auto;
-}
-
-.find_heading img {
-    width: 40%;
-    height: 2px;
-    margin-top: 1.7%;
-}
-
-.find_heading h1 {
     width: 20%;
     font-size: x-large;
     text-align: center;
@@ -352,9 +324,6 @@ main {
     width: auto;
 }
 
-
-/* ------------------------- */
-
 .scroll-infinity__wrap img {
     padding: 5px;
 }
@@ -363,13 +332,9 @@ main {
     flex-wrap: wrap;
 }
 
-/* マウスがホバーしたらストップする */
 .scroll-infinity__wrap:hover .scroll-infinity__list--left {
     animation-play-state: paused;
 }
-
-/* ------------------------------------------------------- */
-
 
 .box {
     margin: 2rem 0 auto auto;
@@ -481,66 +446,66 @@ main {
 
 .f_l {
     width: 15rem;
-    height: 15rem;
+    margin-top: 1rem;
+}
+
+.f_l img {
+    width: 13rem;
+}
+
+.f_l div {
     position: relative;
-    bottom: 3rem;
-}
-
-.f_r {
-    position: relative;
-    bottom: 2rem;
-    left: 3rem;
-    width: 8rem;
-    height: 8rem;
-}
-
-.w_l {
-    width: 10rem;
-    height: 7.5rem;
-}
-
-.w_text {
-    width: 11.5rem;
-    margin-left: 1rem;
-    margin-top: 2.5rem;
-}
-
-.w_text p {
-    font-size: 0.7rem;
-}
-
-.w_text div {
-    margin-top: 2rem;
+    bottom: 5.3rem;
+    left: 2rem;
 }
 
 .hotel {
-    margin-left: 3rem;
-    position: relative;
-    bottom: 5rem;
+    margin-top: 2rem;
+    width: 19rem;
 }
 
-.h_r {
-    width: 10rem;
-    height: auto;
-    margin-left: 3.7rem;
-}
-
-.h_l {
-    width: 14rem;
-    height: auto;
-    position: relative;
-    bottom: 1.8rem;
-}
-
-.h_text {
-    margin-top: 3rem;
-    margin-left: 1.3rem;
-}
-
-.h_text p {
+.h_title {
+    width: 9.5rem;
     font-size: 0.7rem;
 }
 
-.h_text div {
-    margin-top: 4rem;
+.h_text {
+    width: 14.5rem;
+    font-size: 0.6rem;
+    margin-top: 1.2rem;
+}
+
+.h_text p {
+    margin: 0.2rem;
+}
+
+/* ----- 修正箇所の追加 ----- */
+
+/* 投稿数が8個未満でも崩れないようにflexboxを調整 */
+.info .w-200 {
+    display: flex;
+    flex-wrap: wrap; /* 投稿が画面幅に収まるように折り返しを設定 */
+    justify-content: flex-start; /* 投稿を左揃えにする */
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* info_contentのスタイル調整 */
+.info_content {
+    width: 23%; /* 幅の指定はそのまま */
+    height: 100%;
+    margin-right: 1rem; /* 投稿ごとにスペースを確保 */
+    flex-shrink: 0; /* フレックスボックスで縮まないようにする */
+    text-align: center; /* コンテンツを中央揃え */
+}
+
+.info_content img {
+    object-fit: cover; /* 画像の表示をきれいにするために使用 */
+    height: auto;
+    max-height: 200px; /* 画像の最大の高さを指定して揃える */
+    width: 100%;
 }
