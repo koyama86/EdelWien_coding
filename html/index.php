@@ -1,6 +1,6 @@
 <?php
 //SQL文 降順にデータを8つ取得するsql文
-$sql = "SELECT * FROM テーブル名 ORDER BY id DEC LIMIT 8 ";
+$sql = "SELECT * FROM テーブル名 ORDER BY id DESC LIMIT 8";
 
 $stm = $pdo->prepare($sql);
 
@@ -35,10 +35,7 @@ function h($str)
     <!-- font: Kiwi Maru -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet" />
     <title>Document</title>
 </head>
 
@@ -86,17 +83,6 @@ function h($str)
         </div>
     </div>
 
-    <!-- 仮で作ってくれたもの -->
-
-    <!-- <div class="flex">
-        <img class="carousel_font" src="../img/top/carousel_font.png" alt="">
-        <img class="Pink_border" src="../img/top/Pink_border.png" alt="">
-        <img class="small_font" src="../img/top/holiday.png" alt="">
-        <div class="carousel">
-            <img class="findimg_one" src="../img/top/find.png" alt="">
-        </div>
-    </div> -->
-
     <main>
         <!-- お知らせ -->
         <div class="Infomation">
@@ -109,14 +95,15 @@ function h($str)
             <div class="info">
                 <div class="flex w-200" id="seed">
                     <?php
-                    for ($i = 0; $i < 8; $i++) {
-
-                        echo '<div class="info_content">';
-                        echo '<img class="img" src="' . $result[$i]["path"] . '" alt="">';
-                        echo '<p class="small_info">' . $result[$i]["heading"] . '</p>';
-                        echo '<p class="samll_content">' . $result[$i]["content"] . '</p>';
-                        echo '<p class="date" >' . $result[$i]["date"] . '</p>';
-                        echo '</div>';
+                    if (isset($result) && is_array($result)) {
+                        for ($i = 0; $i < count($result); $i++) {
+                            echo '<div class="info_content">';
+                            echo '<img class="img" src="' . h($result[$i]["path"]) . '" alt="">';
+                            echo '<p class="small_info">' . h($result[$i]["heading"]) . '</p>';
+                            echo '<p class="small_content">' . h($result[$i]["content"]) . '</p>';
+                            echo '<p class="date">' . h($result[$i]["date"]) . '</p>';
+                            echo '</div>';
+                        }
                     }
                     ?>
                 </div>
@@ -182,8 +169,6 @@ function h($str)
 
         </div>
 
-        <!-- サンプル画像
-        <img src="../img/top/../img/find/slider1.png" alt="" style="width: 80%; margin:100px 0 0 200px;;"> -->
 
         <!-- 一覧 -->
         <div class="kinds">
@@ -290,7 +275,7 @@ function h($str)
 
 
     <!-- script -->
-     <script src="js/carousel.js"></script>
+    <script src="js/carousel.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
@@ -324,144 +309,6 @@ function h($str)
             }, 1000)
 
         })
-
-
-
-
-
-        // console.log(info_content[0])
-
-
-
-        // let A = 0;
-        // let B = 1;
-        // let C = 2;
-        // let D = 3;
-        // let E = 4;
-        // let F = 5;
-        // let G = 6;
-        // let H = 7;
-        // let I = 0;
-
-        // button.addEventListener("click",event =>{
-        // I = A
-        // A = B
-        // B = C
-        // C = D
-        // D = E
-        // E = F
-        // F = G
-        // G = H
-        // H = I
-
-        // let number = [A,B,C,D];
-
-        // fetch("./index.php",{
-        // // 送信するときのオプション(ルール)を加えられる
-        // method: "POST",
-        // //ボディメッセージにformDataのインスタンスを渡すことでフォームの内容が送信される
-        // body: number,
-        // })
-        // })
-
-        // let js_contents = {
-        //     1: <?php echo json_encode($php_content1); ?>,
-        //     2: <?php echo json_encode($php_content2); ?>,
-        //     3: <?php echo json_encode($php_content3); ?>,
-        //     4: <?php echo json_encode($php_content4); ?>,
-        //     5: <?php echo json_encode($php_content5); ?>,
-        //     6: <?php echo json_encode($php_content6); ?>,
-        //     7: <?php echo json_encode($php_content7); ?>,
-        //     8: <?php echo json_encode($php_content8); ?>
-        // };
-
-        // // 初期化
-        // let set = 0;
-        // let number = 0;
-        // let count = 0;
-
-        // // ボタン要素を取得（idは適宜変更してください）
-        // const button = document.getElementById('button');
-
-        // button.addEventListener("click", function() {
-        //     set += 1;
-        //     count = set;
-        //     number = 0;
-
-        //     // コンテンツを一時的に格納する配列
-        //     let tempContents = {};
-
-        //     // コンテンツのシフト処理
-        //     for(let i = 0; i < 8; i++) {
-        //         if(number === 9) {
-        //             set = 1;
-        //             number = set;
-        //         }
-
-        //         // js_contents から動的に値を取得して tempContents に設定
-        //         tempContents[number] = js_contents[count];
-        //         count += 1;
-        //         number += 1;
-        //     }
-
-        //     // 更新後の内容を js_contents に戻す
-        //     for(let i = 1; i <= 8; i++) {
-        //         js_contents[i] = tempContents[i] || js_contents[i];
-        //     }
-
-        //     // 結果を表示（例）
-        //     console.log(js_contents);
-
-        //     // データをPHPに送信
-        //     fetcwindow.location.href, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(js_contents)
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log('Success:', data);
-        //     })
-        //     .catc(error) => {
-        //         console.error('Error:', error);
-        //     });
-        // });
-
-        // let img1 = document.querySelector(".img1")
-
-        // let js_content1 = <?php echo $php_content1 ?>;
-        // let js_content2 = <?php echo $php_content2 ?>;
-        // let js_content3 = <?php echo $php_content3 ?>;
-        // let js_content4 = <?php echo $php_content4 ?>;
-        // let js_content5 = <?php echo $php_content5 ?>;
-        // let js_content6 = <?php echo $php_content6 ?>;
-        // let js_content7 = <?php echo $php_content7 ?>;
-        // let js_content8 = <?php echo $php_content8 ?>;
-        // let js_content0 = js_content1;
-
-        // // 回数を数えて回す
-        // let set = 0;
-        // let number = 0;
-        // let count = 0;
-        // button.addEventListener("click", {
-
-        //     set = set + 1;
-        //     count = set;
-        //     number = 0;
-        //     for(let i = 0; i< 8; i++) {
-        //         if(number === 9  ){
-        //            set = 1;
-        //            number = set;
-        //         }
-        //         eval(js_content + number) = eval(js_content + count);
-        //         count += 1;
-        //         number += 1;
-
-
-        //     }
-        // })
 
     </script>
 </body>
