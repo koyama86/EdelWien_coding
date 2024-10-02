@@ -3,7 +3,7 @@
 require_once "./db_connect.php";
 
 //SQL文 降順にデータを8つ取得するsql文
-$sql = "SELECT * FROM post ORDER BY id DESC LIMIT 8";
+$sql = "SELECT * FROM post ORDER BY post_id DESC LIMIT 8";
 
 $stm = $pdo->prepare($sql);
 
