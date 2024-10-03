@@ -1,4 +1,14 @@
 @charset "utf-8";
+
+.FlexRow {
+    display: flex;
+    flex-direction: row;
+  }
+.TitleBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
   
   /* 縦並びの横文字 */
   #MainTextBox {
@@ -17,7 +27,6 @@
     left: -180px;
     bottom: 180px;
   }
-
   .ThreeChar {
     left: -112px;
     bottom: 112px;
@@ -54,7 +63,6 @@
     height: 100%;
     object-fit: cover;
   }
-
   .Hidden {
     display: none;
   }
@@ -107,6 +115,7 @@
     background-color: #de6490;
   }
 
+
 /* carousel before  */
 
 .carousel {
@@ -114,6 +123,7 @@
     height: auto;
     /* margin: 0 0 0 auto; */
 }
+
 .findimg_one {
     width: 100%;
     height: auto;
@@ -163,7 +173,7 @@ main {
     overflow: hidden;
 }
 
-.info>.w-200{
+.info>.w-200 {
     width: 200%;
     height: 100%;
 }
@@ -223,15 +233,16 @@ main {
     font-weight: 100;
 }
 
-.x_content { 
+.x_content {
     animation: info_content 1s forwards;
 }
 
-@keyframes info_content{
-    from{
+@keyframes info_content {
+    from {
         transform: translateX(0);
     }
-    to{
+
+    to {
         transform: translateX(calc(-100% - 16px));
     }
 }
@@ -287,7 +298,107 @@ main {
 }
 
 /* 横スクロール */
+@keyframes infinity-scroll-left {
+    from {
+        transform: translateX(0);
+    }
 
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.scroll-infinity__wrap {
+    display: flex;
+    overflow: hidden;
+    max-height: 30rem;
+}
+
+.scroll-infinity__list {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* マージンをリセット */
+}
+
+.scroll-infinity__list>.scroll-infinity__item {
+    height: 100%;
+    width: auto;
+    margin: 0;
+    /* マージンをリセット */
+}
+
+.scroll-infinity__list--left {
+    animation: infinity-scroll-left 40s infinite linear 0.5s both;
+}
+
+.scroll-infinity__item {
+    width: calc(100vw / 3);
+    /* 幅を調整 */
+}
+
+.items_123 {
+    width: calc(100vw / 3.25);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.items1,
+.items2 {
+    height: 50%;
+}
+
+.items3 {
+    height: 50%;
+}
+
+.items_45 {
+    width: calc(100vw / 6.5);
+}
+
+.items4,
+.items5 {
+    height: 50%;
+}
+
+.items_678 {
+    width: calc(100vw / 3);
+    margin-right: -45vw;
+}
+
+.items6 {
+    height: 50%;
+    width: auto;
+}
+
+.items_78 {
+    height: 50%;
+}
+
+.items7,
+.items8 {
+    height: 100%;
+}
+
+.h-100 {
+    height: 100%;
+    width: auto;
+}
+
+/* ------------------------- */
+.scroll-infinity__wrap img {
+    padding: 5px;
+}
+
+.items-wrap {
+    flex-wrap: wrap;
+}
+
+/* マウスがホバーしたらストップする */
+.scroll-infinity__wrap:hover .scroll-infinity__list--left {
+    animation-play-state: paused;
+}
 
 /* ------------------------------------------------------- */
 
@@ -472,21 +583,27 @@ main {
     width: 100%;
     height: auto;
     display: flex;
-    justify-content: space-between; /* 均等にスペースを取る */
-    flex-wrap: wrap; /* アイテムが折り返される */
-    overflow: hidden; /* 横スクロールバーを隠す */
+    justify-content: space-between;
+    /* 均等にスペースを取る */
+    flex-wrap: wrap;
+    /* アイテムが折り返される */
+    overflow: hidden;
+    /* 横スクロールバーを隠す */
 }
 
 .info_content {
-    width: 23%; /* 各お知らせの幅 */
+    width: 23%;
+    /* 各お知らせの幅 */
     height: auto;
-    margin-bottom: 1rem; /* 下に余白を追加 */
+    margin-bottom: 1rem;
+    /* 下に余白を追加 */
 }
 
-.info_content > img {
+.info_content>img {
     width: 100%;
     height: 70%;
-    object-fit: cover; /* 画像のアスペクト比を保つ */
+    object-fit: cover;
+    /* 画像のアスペクト比を保つ */
 }
 
 .small_info {
@@ -507,7 +624,7 @@ main {
 }
 
 /* アイテムが少なくても崩れないように */
-#seed {
+/* #seed {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -515,4 +632,4 @@ main {
 
 .button {
     margin-top: 1rem;
-}
+} */
