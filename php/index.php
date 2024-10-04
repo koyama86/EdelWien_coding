@@ -195,7 +195,7 @@ function h($str)
                             <p>ぜひお子様やお友達、ご家族でお越しください</p>
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="grass.html">詳しくはこちら ></a>
+                                <a href="./grass.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="restaurant.php">詳しくはこちら ></a>
+                                <a href="./restaurant.php">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -263,7 +263,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="hotel.html">詳しくはこちら ></a>
+                                <a href="./hotel.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
