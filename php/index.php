@@ -109,7 +109,7 @@ function h($str)
                 </div>
             </div>
             <img id="button" class="button" src="../img/find/button.png" alt="">
-            <a href="">一覧はこちら></a>
+            <a href="news.html">一覧はこちら></a>
         </div>
 
 
@@ -195,7 +195,7 @@ function h($str)
                             <p>ぜひお子様やお友達、ご家族でお越しください</p>
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="grass.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="restaurant.php">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@ function h($str)
                             </p>
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="https://edelwein.co.jp/edel_info/wein_chateau">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -263,7 +263,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="hotel.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>

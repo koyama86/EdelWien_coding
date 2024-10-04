@@ -201,6 +201,11 @@ main {
     height: 70%;
 }
 
+.Infomation a:hover{
+    background-color: #de6490;
+    color: #ffffff;
+}
+
 .small_info {
     background-color: #DE6490;
     color: white;
@@ -259,6 +264,11 @@ main {
     text-align: center;
     font-size: medium;
     width: 18%;
+}
+
+.Infomation a :hover{
+    background-color: #DE6490;
+    color: #ffffff;
 }
 
 .info_heading {
@@ -622,14 +632,3 @@ main {
     text-align: right;
     font-size: smaller;
 }
-
-/* アイテムが少なくても崩れないように */
-/* #seed {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.button {
-    margin-top: 1rem;
-} */
