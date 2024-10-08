@@ -75,7 +75,114 @@ if (isset($_GET['id'])) {
 
 // フォーム送信後の処理
 if (isset($_POST['unreleased']) || isset($_POST['released'])) {
-    
+    // エラーフラグ(１つでもエラーがあれば、登録処理を行わない)
+    $error_flg = 0;
+
+    // 公開フラグ (0: unreleased, 1: released)
+    if (isset($_POST['unreleased'])) {
+        $post_flg = 0;
+    } else if (isset($_POST['released'])) {
+        $post_flg = 1;
+    } else {
+        $error['released'] = '公開設定が未設定です';
+        $error_flg = 1;
+    }
+
+    // タイトル
+    if (isset($_POST['title'])) {
+        if (!empty($_POST['title'])) {
+            $title = $_POST['title'];
+        } else {
+            $error['title'] = 'タイトルが未入力です';
+            $error_flg = 1;
+        }
+    } else {
+        $error['title'] = 'タイトルが送られていません';
+        $error_flg = 1;
+    }
+
+    // 記事のタグ(post_type)
+    if (isset($_POST['post_type'])) {
+        if (isset($post_type_list[$_POST['post_type']])) {
+            $post_type = $post_type_list[$_POST['post_type']];
+        } else {
+            $error['post_type'] = '記事のタグの値が不正です';
+            $error_flg = 1;
+        }
+    } else {
+        $error['post_type'] = '記事のタグが設定されていません';
+        $error_flg = 1;
+    }
+
+    // 詳細の要素数(detail_cnt)
+    if (isset($_POST['detail_cnt'])) {
+        $send_detail_cnt = $_POST['detail_cnt'];
+    } else {
+        $error['detail_cnt'] = 'detail_cntが送られていません';
+        $error_flg = 1;
+    }
+
+    // 現在日付取得
+    $date = date('Y-m-d');
+
+    /* 詳細部分のデータ取得 */
+
+    // detail_cntの回数分だけ繰り返す
+    for ($i = 0; $i < $send_detail_cnt; $i++) {
+        if (isset($_POST['subtitle' . strval($i)])) {
+            if (!empty($_POST['subtitle' . strval($i)])) {
+                $detail_type[$cnt] = $detail_type_list['subtitle'];
+                $detail[$cnt] = $_POST['subtitle' . strval($i)];
+                $cnt++;
+            }
+        } else if (isset($_POST['text' . strval($i)])) {
+            if (!empty($_POST['text' . strval($i)])) {
+                $detail_type[$cnt] = $detail_type_list['text'];
+                $detail[$cnt] = $_POST['text' . strval($i)];
+                $cnt++;
+            }
+        } else if (isset($_FILES['image' . strval($i)])) {
+            if (!empty($_FILES['image' . strval($i)])) {
+                $detail_type[$cnt] = $detail_type_list['image'];
+
+                $img_name = $_FILES['image' . strval($i)]['name'];
+                $img_path = 'images/' . $img_name;
+                $result = move_uploaded_file($_FILES['image' . strval($i)]['tmp_name'], $img_path);
+
+                $detail[$cnt] = $img_path;
+                $cnt++;
+            }
+        }
+    }
+
+    /* データベース登録処理($error_flg = 0のときのみ) */
+    if ($error_flg === 0) {
+        // postテーブル登録処理
+        $sql_post = 'UPDATE post SET title = :title, post_cd = :post_cd, detail_cnt = :detail_cnt, edit_date = :edit_date, post_flg = :post_flg WHERE post_id = :post_id';
+        $stm = $pdo->prepare($sql_post);
+        $stm->bindValue(':title', $title, PDO::PARAM_STR);
+        $stm->bindValue(':post_cd', $post_type, PDO::PARAM_INT);
+        $stm->bindValue(':detail_cnt', $cnt, PDO::PARAM_INT);
+        $stm->bindParam(':edit_date', $date, PDO::PARAM_STR);
+        $stm->bindValue(':post_flg', $post_flg, PDO::PARAM_INT);
+        $stm->execute();
+
+        // detailの削除(リセット)
+        $sql_detail_delete = 'DELETE detail WHERE post_id = :post_id';
+        $stm = $pdo->prepare($sql_detail_delete);
+        $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+
+        // detailの追加
+        $detail_sql = 'INSERT INTO detail (post_id, detail_no, detail_cd, detail_text) VALUES (:post_id, :detail_no, :detail_cd, :detail_text)';
+        for ($i = 0; $i < $cnt; $i++) {
+            $stm = $pdo->prepare($detail_sql);
+            $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stm->bindValue(':detail_no', $i, PDO::PARAM_INT);
+            $stm->bindValue(':detail_cd', $detail_type[$i]);
+            $stm->bindValue(':detail_text', $detail[$i]);
+            $stm->execute();
+        }
+    }
 }
 
 // 表示するデータ
