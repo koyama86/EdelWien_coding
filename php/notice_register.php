@@ -109,7 +109,7 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
                 $img_path = 'images/' . $img_name;
                 $result = move_uploaded_file($_FILES['image' . strval($i)]['tmp_name'], $img_path);
 
-                $detail[$cnt] = $img_path;
+                $detail[$cnt] = $img_name;
                 $cnt++;
             }
         }
@@ -175,7 +175,7 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         </select><br>
 
         <!-- detial -->
-        <div id="Box0">
+        <div id="Box0" class="box">
             <select onchange="selectContent(0)">
                 <option disabled selected>形式を選択してください</option>
                 <option value="subtitle">サブタイトル</option>
