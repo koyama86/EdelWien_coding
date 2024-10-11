@@ -71,6 +71,14 @@ if (isset($_GET['id'])) {
     $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
     $stm->execute();
     $detail_list = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+    // detailをひとつづつ配列に格納する
+    $detail_array = [];
+    $detail_num = 0;
+    foreach ($detail_list as $detail) {
+        $detail_array[$detail_num] = $detail;
+        $detail_num++;
+    }
 }
 
 // フォーム送信後の処理
@@ -129,18 +137,21 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
 
     // detail_cntの回数分だけ繰り返す
     for ($i = 0; $i < $send_detail_cnt; $i++) {
+        // 見出し
         if (isset($_POST['subtitle' . strval($i)])) {
             if (!empty($_POST['subtitle' . strval($i)])) {
                 $detail_type[$cnt] = $detail_type_list['subtitle'];
                 $detail[$cnt] = $_POST['subtitle' . strval($i)];
                 $cnt++;
             }
+        // テキスト
         } else if (isset($_POST['text' . strval($i)])) {
             if (!empty($_POST['text' . strval($i)])) {
                 $detail_type[$cnt] = $detail_type_list['text'];
                 $detail[$cnt] = $_POST['text' . strval($i)];
                 $cnt++;
             }
+        // 新しく画像が登録される場合
         } else if (isset($_FILES['image' . strval($i)])) {
             if (!empty($_FILES['image' . strval($i)])) {
                 $detail_type[$cnt] = $detail_type_list['image'];
@@ -149,15 +160,21 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
                 $img_path = 'images/' . $img_name;
                 $result = move_uploaded_file($_FILES['image' . strval($i)]['tmp_name'], $img_path);
 
-                $detail[$cnt] = $img_path;
+                $detail[$cnt] = $img_name;
                 $cnt++;
             }
+        // 既存の画像の場合
+        } else if (isset($_POST['prevFile'.strval($cnt)])) {
+                if ($_POST['prevFile'.strval($cnt)] === $detail_array[$cnt]['detail_text']) {
+                    $detail_type[$cnt] = $detail_type_list['image'];
+                    $detail[$cnt] = $_POST['prevFile'.strval($cnt)];
+                }
         }
     }
 
     /* データベース登録処理($error_flg = 0のときのみ) */
     if ($error_flg === 0) {
-        // postテーブル登録処理
+        // postテーブル更新処理
         $sql_post = 'UPDATE post SET title = :title, post_cd = :post_cd, detail_cnt = :detail_cnt, edit_date = :edit_date, post_flg = :post_flg WHERE post_id = :post_id';
         $stm = $pdo->prepare($sql_post);
         $stm->bindValue(':title', $title, PDO::PARAM_STR);
@@ -172,14 +189,14 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $stm = $pdo->prepare($sql_detail_delete);
         $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
 
-        // detailの追加
+        // detailの更新処理
         $detail_sql = 'INSERT INTO detail (post_id, detail_no, detail_cd, detail_text) VALUES (:post_id, :detail_no, :detail_cd, :detail_text)';
         for ($i = 0; $i < $cnt; $i++) {
             $stm = $pdo->prepare($detail_sql);
             $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
             $stm->bindValue(':detail_no', $i, PDO::PARAM_INT);
-            $stm->bindValue(':detail_cd', $detail_type[$i]);
-            $stm->bindValue(':detail_text', $detail[$i]);
+            $stm->bindValue(':detail_cd', $detail_type[$i], PDO::PARAM_INT);
+            $stm->bindValue(':detail_text', $detail[$i], PDO::PARAM_STR);
             $stm->execute();
         }
     }
@@ -198,6 +215,19 @@ if (isset($post_type)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* テスト時に見やすくしたいだけだからけしていいよ */
+        img {
+            width: 400px;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        label span {
+            text-align: center;
+            border: 1px solid #000000;
+        }
+    </style>
 </head>
 
 <body>
@@ -216,7 +246,6 @@ if (isset($post_type)) {
         <!-- detail -->
         
         <?php
-        var_dump($detail_list);
         $cnt = 0;
         foreach ($detail_list as $detail) {
             // detail_typeを取得する
@@ -229,24 +258,46 @@ if (isset($post_type)) {
             $detail_type_check[$detail_type['detail_type']] = 'selected';
         
         ?>
-        <div id="Box<?php echo `{$cnt}`; ?>">
+        <div id="<?php echo "Box".strval($cnt); ?>" class="box">
+            <!-- 追加要素選択 -->
             <select onchange="selectContent(<?php echo $cnt; ?>)">
             <option disabled selected>形式を選択してください</option>
                 <option value="subtitle" <?php echo $detail_type_check['subtitle']; ?>>サブタイトル</option>
                 <option value="text" <?php echo $detail_type_check['text']; ?>>テキスト</option>
                 <option value="image" <?php echo $detail_type_check['image']; ?>>画像</option>
             </select>
+
+            <!-- 画像の場合 -->
+            <?php if ($detail_type['input_type'] === 'file') { ?>
+                <img src="<?php echo 'images/'.$detail['detail_text']; ?>">
+                <input type="file" accept="image/*" hidden name="<?php echo "file".strval($cnt); ?>" id="<?php echo "file".strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
+                <label for="<?php echo "file".$cnt; ?>"><span>開く</span></label>
+                <input type="hidden" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile".strval($cnt); ?>" id="<?php echo "prevFile".strval($cnt); ?>">
+            <!-- 見出しまたはテキストの場合 -->
+            <?php } else { ?>
             <input
-            name="<?php echo $detail_type['detail_type'].$cnt; ?>"
+            name="<?php echo $detail_type['detail_type'].strval($cnt); ?>"
             type="<?php echo $detail_type['input_type']; ?>"
             value="<?php echo $detail['detail_text']; ?>"
-            <?php if($detail_type['input_type'] === 'file') echo `accept="image/*"`; ?>>
+            class="input">
+            <?php } ?>
+            <!-- 削除ボタン -->
             <button type="button" onclick="deleteContent(<?php echo $cnt ?>)">削除</button>
         </div>
         <?php
         $cnt++;
         }
         ?>
+
+        <div id="<?php echo "Box".strval($cnt); ?>" class="box">
+            <!-- 追加要素選択 -->
+            <select onchange="selectContent(<?php echo $cnt; ?>)">
+            <option disabled selected>形式を選択してください</option>
+                <option value="subtitle">サブタイトル</option>
+                <option value="text">テキスト</option>
+                <option value="image">画像</option>
+            </select>
+        </div>
 
         <!-- detail_cnt -->
         <input type="hidden" id="detail_cnt" name="detail_cnt" value="<?php echo $post['detail_cnt']; ?>">
@@ -255,6 +306,8 @@ if (isset($post_type)) {
         <input type="submit" value="未公開" name="unreleased">
         <input type="submit" value="公開" name="released">
     </form>
+
+    <script src="js/notice_edit.js" defer></script>
 </body>
 
 </html>
