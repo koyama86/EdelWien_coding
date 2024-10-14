@@ -31,6 +31,7 @@ function createSelect(num) {
   // Boxを作る
   let box = document.createElement("div");
   box.id = `Box${num}`;
+  box.classList.add('box');
 
   // selectタグを作る
   let select = document.createElement("select");
