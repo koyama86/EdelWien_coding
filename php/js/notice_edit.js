@@ -15,6 +15,7 @@ const changeFile = (obj, num) => {
         image.src = reader.result;
     })
     reader.readAsDataURL(obj.files[0])
+    prev.value = ''
 }
 
 // 削除ボタンが押された時

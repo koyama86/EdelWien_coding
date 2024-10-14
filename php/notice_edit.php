@@ -1,7 +1,7 @@
 <?php
 require_once 'db_connect.php';
 
-var_dump($_FILES);
+$cnt = 0;
 
 // エラー文を格納する連想配列
 $error = [
@@ -18,11 +18,21 @@ $stm = $pdo->prepare($sql_post_type);
 $stm->execute();
 $post_type_list = $stm->fetchAll(PDO::FETCH_ASSOC);
 
+$post_type_number_list = array();
+foreach ($post_type_list as $item) {
+    $post_type_number_list[$item['post_type']] = $item['post_cd'];
+}
+
 // detail_typeを取得する
 $sql_detail_type = 'SELECT * FROM detail_type';
 $stm = $pdo->prepare($sql_detail_type);
 $stm->execute();
 $detail_type_list = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+$detail_type_number_list = [];
+foreach ($detail_type_list as $item) {
+    $detail_type_number_list[$item['detail_type']] = $item['detail_cd'];
+}
 
 // detail_cdからdetail_typeを参照して返す関数
 function getDetailType($detail_type_list, $detail_cd)
@@ -96,6 +106,8 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
+    // echo 'post_flg'.$error_flg;
+
     // タイトル
     if (isset($_POST['title'])) {
         if (!empty($_POST['title'])) {
@@ -109,10 +121,12 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
+    // echo 'title'.$error_flg;
+
     // 記事のタグ(post_type)
     if (isset($_POST['post_type'])) {
-        if (isset($post_type_list[$_POST['post_type']])) {
-            $post_type = $post_type_list[$_POST['post_type']];
+        if (isset($post_type_number_list[$_POST['post_type']])) {
+            $post_cd = $post_type_number_list[$_POST['post_type']];
         } else {
             $error['post_type'] = '記事のタグの値が不正です';
             $error_flg = 1;
@@ -130,6 +144,8 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
+    echo 'detail_cnt' . $error_flg;
+
     // 現在日付取得
     $date = date('Y-m-d');
 
@@ -140,21 +156,21 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         // 見出し
         if (isset($_POST['subtitle' . strval($i)])) {
             if (!empty($_POST['subtitle' . strval($i)])) {
-                $detail_type[$cnt] = $detail_type_list['subtitle'];
+                $detail_type[$cnt] = $detail_type_number_list['subtitle'];
                 $detail[$cnt] = $_POST['subtitle' . strval($i)];
                 $cnt++;
             }
-        // テキスト
+            // テキスト
         } else if (isset($_POST['text' . strval($i)])) {
             if (!empty($_POST['text' . strval($i)])) {
-                $detail_type[$cnt] = $detail_type_list['text'];
+                $detail_type[$cnt] = $detail_type_number_list['text'];
                 $detail[$cnt] = $_POST['text' . strval($i)];
                 $cnt++;
             }
-        // 新しく画像が登録される場合
+            // 新しく画像が登録される場合
         } else if (isset($_FILES['image' . strval($i)])) {
             if (!empty($_FILES['image' . strval($i)])) {
-                $detail_type[$cnt] = $detail_type_list['image'];
+                $detail_type[$cnt] = $detail_type_number_list['image'];
 
                 $img_name = $_FILES['image' . strval($i)]['name'];
                 $img_path = 'images/' . $img_name;
@@ -163,14 +179,16 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
                 $detail[$cnt] = $img_name;
                 $cnt++;
             }
-        // 既存の画像の場合
-        } else if (isset($_POST['prevFile'.strval($cnt)])) {
-                if ($_POST['prevFile'.strval($cnt)] === $detail_array[$cnt]['detail_text']) {
-                    $detail_type[$cnt] = $detail_type_list['image'];
-                    $detail[$cnt] = $_POST['prevFile'.strval($cnt)];
-                }
+            // 既存の画像の場合
+        } else if (isset($_POST['prevFile' . strval($i)])) {
+            if ($_POST['prevFile' . strval($i)] === $detail_array[$i]['detail_text']) {
+                $detail_type[$i] = $detail_type_number_list['image'];
+                $detail[$i] = $_POST['prevFile' . strval($i)];
+                $cnt++;
+            }
         }
     }
+
 
     /* データベース登録処理($error_flg = 0のときのみ) */
     if ($error_flg === 0) {
@@ -178,16 +196,18 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $sql_post = 'UPDATE post SET title = :title, post_cd = :post_cd, detail_cnt = :detail_cnt, edit_date = :edit_date, post_flg = :post_flg WHERE post_id = :post_id';
         $stm = $pdo->prepare($sql_post);
         $stm->bindValue(':title', $title, PDO::PARAM_STR);
-        $stm->bindValue(':post_cd', $post_type, PDO::PARAM_INT);
+        $stm->bindValue(':post_cd', $post_cd, PDO::PARAM_INT);
         $stm->bindValue(':detail_cnt', $cnt, PDO::PARAM_INT);
         $stm->bindParam(':edit_date', $date, PDO::PARAM_STR);
         $stm->bindValue(':post_flg', $post_flg, PDO::PARAM_INT);
+        $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
         $stm->execute();
 
         // detailの削除(リセット)
-        $sql_detail_delete = 'DELETE detail WHERE post_id = :post_id';
+        $sql_detail_delete = 'DELETE FROM detail WHERE post_id = :post_id';
         $stm = $pdo->prepare($sql_detail_delete);
         $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stm->execute();
 
         // detailの更新処理
         $detail_sql = 'INSERT INTO detail (post_id, detail_no, detail_cd, detail_text) VALUES (:post_id, :detail_no, :detail_cd, :detail_text)';
@@ -199,6 +219,8 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
             $stm->bindValue(':detail_text', $detail[$i], PDO::PARAM_STR);
             $stm->execute();
         }
+
+        // header('Location: notice_edit.php?id=14');
     }
 }
 
@@ -231,7 +253,7 @@ if (isset($post_type)) {
 </head>
 
 <body>
-    <form action="notice_edit.php" method="post" enctype="multipart/form-data">
+    <form action="notice_edit.php?id=<?php echo $post_id; ?>" method="post" enctype="multipart/form-data">
         <!-- タイトル -->
         <label>タイトル</label>
         <input type="text" name="title" value="<?php echo $post['title']; ?>"><br>
@@ -244,7 +266,7 @@ if (isset($post_type)) {
         </select><br>
 
         <!-- detail -->
-        
+
         <?php
         $cnt = 0;
         foreach ($detail_list as $detail) {
@@ -256,43 +278,43 @@ if (isset($post_type)) {
                 $detail_type_check[$type['detail_type']] = '';
             }
             $detail_type_check[$detail_type['detail_type']] = 'selected';
-        
-        ?>
-        <div id="<?php echo "Box".strval($cnt); ?>" class="box">
-            <!-- 追加要素選択 -->
-            <select onchange="selectContent(<?php echo $cnt; ?>)">
-            <option disabled selected>形式を選択してください</option>
-                <option value="subtitle" <?php echo $detail_type_check['subtitle']; ?>>サブタイトル</option>
-                <option value="text" <?php echo $detail_type_check['text']; ?>>テキスト</option>
-                <option value="image" <?php echo $detail_type_check['image']; ?>>画像</option>
-            </select>
 
-            <!-- 画像の場合 -->
-            <?php if ($detail_type['input_type'] === 'file') { ?>
-                <img src="<?php echo 'images/'.$detail['detail_text']; ?>">
-                <input type="file" accept="image/*" hidden name="<?php echo "file".strval($cnt); ?>" id="<?php echo "file".strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
-                <label for="<?php echo "file".$cnt; ?>"><span>開く</span></label>
-                <input type="hidden" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile".strval($cnt); ?>" id="<?php echo "prevFile".strval($cnt); ?>">
-            <!-- 見出しまたはテキストの場合 -->
-            <?php } else { ?>
-            <input
-            name="<?php echo $detail_type['detail_type'].strval($cnt); ?>"
-            type="<?php echo $detail_type['input_type']; ?>"
-            value="<?php echo $detail['detail_text']; ?>"
-            class="input">
-            <?php } ?>
-            <!-- 削除ボタン -->
-            <button type="button" onclick="deleteContent(<?php echo $cnt ?>)">削除</button>
-        </div>
+        ?>
+            <div id="<?php echo "Box" . strval($cnt); ?>" class="box">
+                <!-- 追加要素選択 -->
+                <select onchange="selectContent(<?php echo $cnt; ?>)">
+                    <option disabled selected>形式を選択してください</option>
+                    <option value="subtitle" <?php echo $detail_type_check['subtitle']; ?>>サブタイトル</option>
+                    <option value="text" <?php echo $detail_type_check['text']; ?>>テキスト</option>
+                    <option value="image" <?php echo $detail_type_check['image']; ?>>画像</option>
+                </select>
+
+                <!-- 画像の場合 -->
+                <?php if ($detail_type['input_type'] === 'file') { ?>
+                    <img src="<?php echo 'images/' . $detail['detail_text']; ?>">
+                    <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
+                    <label for="<?php echo "file" . $cnt; ?>"><span>開く</span></label>
+                    <input type="hidden" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>">
+                    <!-- 見出しまたはテキストの場合 -->
+                <?php } else { ?>
+                    <input
+                        name="<?php echo $detail_type['detail_type'] . strval($cnt); ?>"
+                        type="<?php echo $detail_type['input_type']; ?>"
+                        value="<?php echo $detail['detail_text']; ?>"
+                        class="input">
+                <?php } ?>
+                <!-- 削除ボタン -->
+                <button type="button" onclick="deleteContent(<?php echo $cnt ?>)">削除</button>
+            </div>
         <?php
-        $cnt++;
+            $cnt++;
         }
         ?>
 
-        <div id="<?php echo "Box".strval($cnt); ?>" class="box">
+        <div id="<?php echo "Box" . strval($cnt); ?>" class="box">
             <!-- 追加要素選択 -->
             <select onchange="selectContent(<?php echo $cnt; ?>)">
-            <option disabled selected>形式を選択してください</option>
+                <option disabled selected>形式を選択してください</option>
                 <option value="subtitle">サブタイトル</option>
                 <option value="text">テキスト</option>
                 <option value="image">画像</option>
