@@ -1,5 +1,30 @@
 "use strict";
 
+// サムネイルプレビュー
+const thumbnailPreview = (obj) => {
+  const thumbnail_view = document.querySelector("#thumbnail_preview");
+  let reader = new FileReader();
+  reader.onload = (e) => {
+    thumbnail_view.src = reader.result;
+  };
+  reader.readAsDataURL(obj.files[0]);
+  thumbnail_view.style.display = 'block'
+};
+
+// 詳細部分画像プレビュー
+const imagePreview = (num, obj) => {
+
+  if ((obj.type = "file")) {
+    const image_view = document.querySelector(`#image_preview${num}`);
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      image_view.src = reader.result;
+    };
+    reader.readAsDataURL(obj.files[0]);
+    image_view.style.display = 'block'
+  }
+};
+
 /*
 1: プルダウンからcontentのtypeを指定される
 2: inputタグを作り、選択されたtypeを指定する
@@ -31,7 +56,7 @@ function createSelect(num) {
   // Boxを作る
   let box = document.createElement("div");
   box.id = `Box${num}`;
-  box.classList.add('box');
+  box.classList.add("box");
 
   // selectタグを作る
   let select = document.createElement("select");
@@ -67,13 +92,17 @@ function createSelect(num) {
 }
 
 function selectContent(num) {
-    console.log('ok')
-    const box = document.querySelector(`#Box${num}`);
-    const select = document.querySelector(`#Box${num} select`);
+  const box = document.querySelector(`#Box${num}`);
+  const select = document.querySelector(`#Box${num} select`);
 
-    // 新しくinputとdeleteBtnを作るとき
+  // 新しくinputとdeleteBtnを作るとき
   if (num === cnt) {
-    const detail_cnt = document.querySelector('#detail_cnt');
+    const detail_cnt = document.querySelector("#detail_cnt");
+
+    // imgタグを作成する
+    let img = document.createElement("img");
+    img.style.display = 'none'
+    img.id = `image_preview${num}`;
 
     // inputを作成する
     let input = document.createElement("input");
@@ -86,7 +115,8 @@ function selectContent(num) {
     } else if (select.value === "image") {
       input.type = "file";
       input.name = `image${num}`;
-      input.accept = 'image/*';
+      input.accept = "image/*";
+      input.setAttribute("onchange", `imagePreview(${num}, this)`);
     }
 
     // deleteBtn(削除ボタン)を作成する
@@ -96,6 +126,7 @@ function selectContent(num) {
     deleteBtn.setAttribute("onclick", `deleteContent(${num})`);
 
     //   boxにinputとdeleteBtnを格納する
+    box.appendChild(img)
     box.appendChild(input);
     box.appendChild(deleteBtn);
 
@@ -109,21 +140,27 @@ function selectContent(num) {
 
     // 既存のinputとdeleteBtnがあるとき
   } else {
-    const input = document.querySelector(`#Box${num} input`)
+    const input = document.querySelector(`#Box${num} input`);
+    const img = document.querySelector(`#image_preview${num}`);
+
+    // imgタグを初期化する
+    img.src = "";
+    img.style.display = 'none'
 
     // value値をリセットする(ファイルとしてただのテキストが送られる可能性があるため)
-    input.value = ''
+    input.value = "";
 
     // inputの属性を変更する
     if (select.value === "subtitle") {
-        input.type = "text";
-        input.name = `subtitle${num}`;
-      } else if (select.value === "text") {
-        input.type = "text";
-        input.name = `text${num}`;
-      } else if (select.value === "image") {
-        input.type = "file";
-        input.name = `image${num}`;
-      }
+      input.type = "text";
+      input.name = `subtitle${num}`;
+    } else if (select.value === "text") {
+      input.type = "text";
+      input.name = `text${num}`;
+    } else if (select.value === "image") {
+      input.type = "file";
+      input.name = `image${num}`;
+      input.setAttribute("onchange", `imagePreview(${num}, this)`);
+    }
   }
 }

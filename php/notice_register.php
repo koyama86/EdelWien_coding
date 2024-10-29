@@ -61,6 +61,13 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
+    // サムネイル
+    if (isset($_FILES['thumbnail'])) {
+        $thumbnail_name = $_FILES['thumbnail']['name'];
+        $thumbnail_path = 'images/'.$thumbnail_name;
+        $result = move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumbnail_path);
+    }
+
     // 記事のタグ(post_type)
     if (isset($_POST['post_type'])) {
         if (isset($post_type_list[$_POST['post_type']])) {
@@ -134,6 +141,13 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $stm->execute();
         $post_id = $stm->fetch(PDO::FETCH_ASSOC)['max'];
 
+        // thumbnailの登録処理
+        $sql_thumbnail = 'INSERT INTO thumbnail (post_id, thumbnail_url) VALUES (:post_id, :thumbnail_url)';
+        $stm = $pdo->prepare($sql_thumbnail);
+        $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stm->bindValue(':thumbnail_url', $thumbnail_name, PDO::PARAM_STR);
+        $stm->execute();
+
         // detailの追加
         $detail_sql = 'INSERT INTO detail (post_id, detail_no, detail_cd, detail_text) VALUES (:post_id, :detail_no, :detail_cd, :detail_text)';
         for ($i = 0; $i < $cnt; $i++) {
@@ -166,6 +180,12 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         <!-- タイトル -->
         <label>タイトル</label>
         <input type="text" name="title"><br>
+
+        <!-- お知らせの一覧でのサムネイル -->
+         <label>サムネイル</label>
+         <img src="" id="thumbnail_preview" hidden>
+         <input type="file" accept="image/*" id="thumbnail" name="thumbnail" onchange="thumbnailPreview(this)">
+         <label for="thumbnail"><span>開く</span></label><br>
 
         <!-- 記事のタグ -->
         <label>タグ</label>
