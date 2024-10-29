@@ -14,7 +14,7 @@ const thumbnailPreview = (obj) => {
 // 詳細部分画像プレビュー
 const imagePreview = (num, obj) => {
 
-  if ((obj.type = "file")) {
+  if ((obj.type == "file")) {
     const image_view = document.querySelector(`#image_preview${num}`);
     let reader = new FileReader();
     reader.onload = (e) => {
@@ -149,6 +149,7 @@ function selectContent(num) {
 
     // value値をリセットする(ファイルとしてただのテキストが送られる可能性があるため)
     input.value = "";
+    input.accept = ''
 
     // inputの属性を変更する
     if (select.value === "subtitle") {
@@ -160,6 +161,7 @@ function selectContent(num) {
     } else if (select.value === "image") {
       input.type = "file";
       input.name = `image${num}`;
+      input.accept = 'image/*'
       input.setAttribute("onchange", `imagePreview(${num}, this)`);
     }
   }
