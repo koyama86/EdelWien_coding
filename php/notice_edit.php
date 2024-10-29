@@ -68,6 +68,13 @@ if (isset($_GET['id'])) {
     $stm->execute();
     $post = $stm->fetch(PDO::FETCH_ASSOC);
 
+    // thumbnailテーブルからサムネイルを取得する
+    $sql_thumbnail_select = 'SELECT thumbnail_url FROM thumbnail WHERE post_id = :post_id';
+    $stm = $pdo->prepare($sql_thumbnail_select);
+    $stm->bindValue(':post_id', $post_id);
+    $stm->execute();
+    $thumbnail = $stm->fetch(PDO::FETCH_ASSOC);
+
     // post_typeテーブルからデータを取得する
     $sql_post_type_select = 'SELECT post_type FROM post_type WHERE post_cd = :post_cd';
     $stm = $pdo->prepare($sql_post_type_select);
