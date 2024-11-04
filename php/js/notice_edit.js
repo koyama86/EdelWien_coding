@@ -6,7 +6,18 @@ let cnt = 0;
 const boxes = document.querySelectorAll('.box')
 cnt = boxes.length - 1
 
-// input[type=file]のvalueが変更された時、プレビューを表示または、変更する
+// サムネイルプレビュー
+const thumbnailPreview = (obj) => {
+  const thumbnail_view = document.querySelector("#thumbnail_preview");
+  let reader = new FileReader();
+  reader.onload = (e) => {
+    thumbnail_view.src = reader.result;
+  };
+  reader.readAsDataURL(obj.files[0]);
+  thumbnail_view.style.display = 'block'
+};
+
+// input[type=file]のvalueが変更された時、画像プレビューを表示または、変更する
 const changeFile = (obj, num) => {
     const image = document.querySelector(`#Box${num} img`)
     const prev = document.querySelector(`#prevFile${num}`)
@@ -16,6 +27,7 @@ const changeFile = (obj, num) => {
     })
     reader.readAsDataURL(obj.files[0])
     prev.value = ''
+    image.computedStyleMap.display = 'block'
 }
 
 // 削除ボタンが押された時

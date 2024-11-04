@@ -71,7 +71,7 @@ if (isset($_GET['id'])) {
     // thumbnailテーブルからサムネイルを取得する
     $sql_thumbnail_select = 'SELECT thumbnail_url FROM thumbnail WHERE post_id = :post_id';
     $stm = $pdo->prepare($sql_thumbnail_select);
-    $stm->bindValue(':post_id', $post_id);
+    $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
     $stm->execute();
     $thumbnail = $stm->fetch(PDO::FETCH_ASSOC);
 
@@ -264,6 +264,12 @@ if (isset($post_type)) {
         <!-- タイトル -->
         <label>タイトル</label>
         <input type="text" name="title" value="<?php echo $post['title']; ?>"><br>
+
+        <!-- 続きがここから -->
+        <!-- サムネイル -->
+         <label>サムネイル</label>
+         <img src="<?php echo 'images/'.$thumbnail['thumbnail_url']; ?>" id="thumbnail_preview">
+         <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="">
 
         <!-- 記事のタグ -->
         <label>タグ</label>
