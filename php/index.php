@@ -1,6 +1,9 @@
 <?php
+
+require_once "./db_connect.php";
+
 //SQL文 降順にデータを8つ取得するsql文
-$sql = "SELECT * FROM テーブル名 ORDER BY id DESC LIMIT 8";
+$sql = "SELECT * FROM post ORDER BY post_id DESC LIMIT 8";
 
 $stm = $pdo->prepare($sql);
 
@@ -13,10 +16,7 @@ function h($str)
     return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }
 
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -94,23 +94,24 @@ function h($str)
 
             <div class="info">
                 <div class="flex w-200" id="seed">
-                    <?php
-                    if (isset($result) && is_array($result)) {
-                        for ($i = 0; $i < count($result); $i++) {
-                            echo '<div class="info_content">';
-                            echo '<img class="img" src="' . h($result[$i]["path"]) . '" alt="">';
-                            echo '<p class="small_info">' . h($result[$i]["heading"]) . '</p>';
-                            echo '<p class="small_content">' . h($result[$i]["content"]) . '</p>';
-                            echo '<p class="date">' . h($result[$i]["date"]) . '</p>';
-                            echo '</div>';
-                        }
-                    }
-                    ?>
+                    <?php if (isset($result) && count($result) > 0): ?>
+                        <?php foreach ($result as $row): ?>
+                            <div class="info_content">
+                                <img class="img" src="<?= h($row['path']) ?>" alt="">
+                                <p class="small_info"><?= h($row['heading']) ?></p>
+                                <p class="small_content"><?= h($row['content']) ?></p>
+                                <p class="date"><?= h($row['date']) ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>お知らせがありません。</p>
+                    <?php endif; ?>
                 </div>
             </div>
             <img id="button" class="button" src="../img/find/button.png" alt="">
-            <a href="" class="">一覧はこちら></a>
+            <a href="news.html">一覧はこちら></a>
         </div>
+
 
         <!-- 見つける -->
         <div class="find">
@@ -166,7 +167,6 @@ function h($str)
                     </ul>
                 </div>
             </div>
-
         </div>
 
 
@@ -195,7 +195,7 @@ function h($str)
                             <p>ぜひお子様やお友達、ご家族でお越しください</p>
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="./grass.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="./restaurant.php">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@ function h($str)
                             </p>
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="https://edelwein.co.jp/edel_info/wein_chateau">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
@@ -263,7 +263,7 @@ function h($str)
 
                             <!-- 遷移リンク -->
                             <div>
-                                <a href="">詳しくはこちら ></a>
+                                <a href="./hotel.html">詳しくはこちら ></a>
                             </div>
                         </div>
                     </div>
