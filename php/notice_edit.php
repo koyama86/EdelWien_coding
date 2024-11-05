@@ -134,11 +134,10 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
     // echo 'title'.$error_flg;
 
     // サムネイル
-    $thumbnail_flg;
     if (isset($_POST['thumbnail_change_flg'])) {
         // 変更があるかチェックする
         $thumbnail_flg = $_POST['thumbnail_change_flg'];
-        if ($thumbnail_flg === 1) {
+        if ($thumbnail_flg == 1) {
             if (isset($_FILES['thumbnail'])) {
                 if (!empty($_FILES['thumbnail'])) {
                     // フォルダ内に同じ名前の画像ファイルがないかチェックする
@@ -161,10 +160,13 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
                 $error['thumbnail'] = '画像が送られていません';
                 $error_flg = 1;
             }
+        } else {
+            $thumbnail_name = $thumbnail['thumbnail_url'];
         }
     }
 
     echo $thumbnail_flg;
+    echo $thumbnail_name;
 
     // 記事のタグ(post_type)
     if (isset($_POST['post_type'])) {
@@ -248,13 +250,11 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
 
         // thumbnailテーブル更新処理
         // 更新の必要有無チェック
-        if ($thumbnail_flg === 1) {
-            $sql_thumbnail_register = 'UPDATE thumbnail SET thumbnail_url = :thumbnail_url WHERE post_id = :post_id';
-            $stm = $pdo->prepare($sql_thumbnail_register);
-            $stm->bindValue(':thumbnail_url', $thumbnail_name, PDO::PARAM_STR);
-            $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
-            $stm->execute();
-        }
+        $sql_thumbnail_register = 'UPDATE thumbnail SET thumbnail_url = :thumbnail_url WHERE post_id = :post_id';
+        $stm = $pdo->prepare($sql_thumbnail_register);
+        $stm->bindValue(':thumbnail_url', $thumbnail_name, PDO::PARAM_STR);
+        $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stm->execute();
 
         // detailの削除(リセット)
         $sql_detail_delete = 'DELETE FROM detail WHERE post_id = :post_id';
@@ -315,9 +315,9 @@ if (isset($post_type)) {
         <!-- サムネイル -->
         <label>サムネイル</label>
         <img src="<?php echo 'images/' . $thumbnail['thumbnail_url']; ?>" id="thumbnail_preview">
-        <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="">
-        <input type="number" name="thumbnail_change_flg" value="0" min="0" max="1" id="thumbnail_change_flg">
-        <label for="thumbnail"><span>開く</span></label>
+        <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="thumbnail" hidden>
+        <input type="number" name="thumbnail_change_flg" value="0" min="0" max="1" id="thumbnail_change_flg" hidden>
+        <label for="thumbnail"><span>開く</span></label><br>
 
         <!-- 記事のタグ -->
         <label>タグ</label>
@@ -355,7 +355,7 @@ if (isset($post_type)) {
                     <img src="<?php echo 'images/' . $detail['detail_text']; ?>">
                     <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
                     <label for="<?php echo "file" . $cnt; ?>"><span>開く</span></label>
-                    <input type="hidden" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>">
+                    <input type="text" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>" hidden>
                     <!-- 見出しまたはテキストの場合 -->
                 <?php } else { ?>
                     <input
