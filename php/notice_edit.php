@@ -56,6 +56,9 @@ foreach ($detail_type_list as $type) {
     $detail_type_check[$type['detail_type']] = '';
 }
 
+// 画像の格納フォルダパス
+$imagePath = 'images/';
+
 // ページ遷移してきたとき
 if (isset($_GET['id'])) {
     // パラメータを受け取る
@@ -130,6 +133,39 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
 
     // echo 'title'.$error_flg;
 
+    // サムネイル
+    $thumbnail_flg;
+    if (isset($_POST['thumbnail_change_flg'])) {
+        // 変更があるかチェックする
+        $thumbnail_flg = $_POST['thumbnail_change_flg'];
+        if ($thumbnail_flg === 1) {
+            if (isset($_FILES['thumbnail'])) {
+                if (!empty($_FILES['thumbnail'])) {
+                    // フォルダ内に同じ名前の画像ファイルがないかチェックする
+                    $imagesFolder = scandir($imagePath);
+                    $thumbnail_name = $_FILES['thumbnail']['name'];
+
+                    if ($imagesFolder !== false) {
+                        if (in_array($thumbnail_name, $imagesFolder)) {
+                            $thumbnail_flg = 0;
+                        } else {
+                            $thumbnail_path = 'images/' . $thumbnail_name;
+                            $thumbnail_result = move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumbnail_path);
+                        }
+                    }
+                } else {
+                    $error['thumbnail'] = '画像が送られていません';
+                    $error_flg = 1;
+                }
+            } else {
+                $error['thumbnail'] = '画像が送られていません';
+                $error_flg = 1;
+            }
+        }
+    }
+
+    echo $thumbnail_flg;
+
     // 記事のタグ(post_type)
     if (isset($_POST['post_type'])) {
         if (isset($post_type_number_list[$_POST['post_type']])) {
@@ -151,7 +187,7 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
-    echo 'detail_cnt' . $error_flg;
+    // echo 'detail_cnt' . $error_flg;
 
     // 現在日付取得
     $date = date('Y-m-d');
@@ -210,6 +246,16 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
         $stm->execute();
 
+        // thumbnailテーブル更新処理
+        // 更新の必要有無チェック
+        if ($thumbnail_flg === 1) {
+            $sql_thumbnail_register = 'UPDATE thumbnail SET thumbnail_url = :thumbnail_url WHERE post_id = :post_id';
+            $stm = $pdo->prepare($sql_thumbnail_register);
+            $stm->bindValue(':thumbnail_url', $thumbnail_name, PDO::PARAM_STR);
+            $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+            $stm->execute();
+        }
+
         // detailの削除(リセット)
         $sql_detail_delete = 'DELETE FROM detail WHERE post_id = :post_id';
         $stm = $pdo->prepare($sql_detail_delete);
@@ -267,9 +313,11 @@ if (isset($post_type)) {
 
         <!-- 続きがここから -->
         <!-- サムネイル -->
-         <label>サムネイル</label>
-         <img src="<?php echo 'images/'.$thumbnail['thumbnail_url']; ?>" id="thumbnail_preview">
-         <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="">
+        <label>サムネイル</label>
+        <img src="<?php echo 'images/' . $thumbnail['thumbnail_url']; ?>" id="thumbnail_preview">
+        <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="">
+        <input type="number" name="thumbnail_change_flg" value="0" min="0" max="1" id="thumbnail_change_flg">
+        <label for="thumbnail"><span>開く</span></label>
 
         <!-- 記事のタグ -->
         <label>タグ</label>

@@ -9,12 +9,15 @@ cnt = boxes.length - 1
 // サムネイルプレビュー
 const thumbnailPreview = (obj) => {
   const thumbnail_view = document.querySelector("#thumbnail_preview");
+  const change_flg = document.querySelector('#thumbnail_change_flg')
+  console.log(change_flg)
   let reader = new FileReader();
   reader.onload = (e) => {
     thumbnail_view.src = reader.result;
   };
   reader.readAsDataURL(obj.files[0]);
   thumbnail_view.style.display = 'block'
+  change_flg.value = 1
 };
 
 // input[type=file]のvalueが変更された時、画像プレビューを表示または、変更する
