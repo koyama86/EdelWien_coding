@@ -6,6 +6,7 @@ $error = [
     'released' => '',
     'post_type' => '',
     'title' => '',
+    'thumbnail' => '',
     'detail' => '',
     'detail_cnt' => '',
 ];
@@ -66,6 +67,9 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $thumbnail_name = $_FILES['thumbnail']['name'];
         $thumbnail_path = 'images/'.$thumbnail_name;
         $result = move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumbnail_path);
+    } else {
+        $error['thumbnail'] = 'サムネイルが入力されていません';
+        $error_flg = 1;
     }
 
     // 記事のタグ(post_type)

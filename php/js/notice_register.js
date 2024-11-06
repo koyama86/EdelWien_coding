@@ -14,7 +14,7 @@ const thumbnailPreview = (obj) => {
 // 詳細部分画像プレビュー
 const imagePreview = (num, obj) => {
 
-  if ((obj.type == "file")) {
+  if (obj.type == "file") {
     const image_view = document.querySelector(`#image_preview${num}`);
     let reader = new FileReader();
     reader.onload = (e) => {

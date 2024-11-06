@@ -56,6 +56,9 @@ foreach ($detail_type_list as $type) {
     $detail_type_check[$type['detail_type']] = '';
 }
 
+// 画像の格納フォルダパス
+$imagePath = 'images/';
+
 // ページ遷移してきたとき
 if (isset($_GET['id'])) {
     // パラメータを受け取る
@@ -67,6 +70,13 @@ if (isset($_GET['id'])) {
     $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
     $stm->execute();
     $post = $stm->fetch(PDO::FETCH_ASSOC);
+
+    // thumbnailテーブルからサムネイルを取得する
+    $sql_thumbnail_select = 'SELECT thumbnail_url FROM thumbnail WHERE post_id = :post_id';
+    $stm = $pdo->prepare($sql_thumbnail_select);
+    $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+    $stm->execute();
+    $thumbnail = $stm->fetch(PDO::FETCH_ASSOC);
 
     // post_typeテーブルからデータを取得する
     $sql_post_type_select = 'SELECT post_type FROM post_type WHERE post_cd = :post_cd';
@@ -123,6 +133,41 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
 
     // echo 'title'.$error_flg;
 
+    // サムネイル
+    if (isset($_POST['thumbnail_change_flg'])) {
+        // 変更があるかチェックする
+        $thumbnail_flg = $_POST['thumbnail_change_flg'];
+        if ($thumbnail_flg == 1) {
+            if (isset($_FILES['thumbnail'])) {
+                if (!empty($_FILES['thumbnail'])) {
+                    // フォルダ内に同じ名前の画像ファイルがないかチェックする
+                    $imagesFolder = scandir($imagePath);
+                    $thumbnail_name = $_FILES['thumbnail']['name'];
+
+                    if ($imagesFolder !== false) {
+                        if (in_array($thumbnail_name, $imagesFolder)) {
+                            $thumbnail_flg = 0;
+                        } else {
+                            $thumbnail_path = 'images/' . $thumbnail_name;
+                            $thumbnail_result = move_uploaded_file($_FILES['thumbnail']['tmp_name'], $thumbnail_path);
+                        }
+                    }
+                } else {
+                    $error['thumbnail'] = '画像が送られていません';
+                    $error_flg = 1;
+                }
+            } else {
+                $error['thumbnail'] = '画像が送られていません';
+                $error_flg = 1;
+            }
+        } else {
+            $thumbnail_name = $thumbnail['thumbnail_url'];
+        }
+    }
+
+    echo $thumbnail_flg;
+    echo $thumbnail_name;
+
     // 記事のタグ(post_type)
     if (isset($_POST['post_type'])) {
         if (isset($post_type_number_list[$_POST['post_type']])) {
@@ -144,7 +189,7 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $error_flg = 1;
     }
 
-    echo 'detail_cnt' . $error_flg;
+    // echo 'detail_cnt' . $error_flg;
 
     // 現在日付取得
     $date = date('Y-m-d');
@@ -203,6 +248,14 @@ if (isset($_POST['unreleased']) || isset($_POST['released'])) {
         $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
         $stm->execute();
 
+        // thumbnailテーブル更新処理
+        // 更新の必要有無チェック
+        $sql_thumbnail_register = 'UPDATE thumbnail SET thumbnail_url = :thumbnail_url WHERE post_id = :post_id';
+        $stm = $pdo->prepare($sql_thumbnail_register);
+        $stm->bindValue(':thumbnail_url', $thumbnail_name, PDO::PARAM_STR);
+        $stm->bindValue(':post_id', $post_id, PDO::PARAM_INT);
+        $stm->execute();
+
         // detailの削除(リセット)
         $sql_detail_delete = 'DELETE FROM detail WHERE post_id = :post_id';
         $stm = $pdo->prepare($sql_detail_delete);
@@ -258,6 +311,14 @@ if (isset($post_type)) {
         <label>タイトル</label>
         <input type="text" name="title" value="<?php echo $post['title']; ?>"><br>
 
+        <!-- 続きがここから -->
+        <!-- サムネイル -->
+        <label>サムネイル</label>
+        <img src="<?php echo 'images/' . $thumbnail['thumbnail_url']; ?>" id="thumbnail_preview">
+        <input type="file" id="thumbnail" onchange="thumbnailPreview(this)" accept="image/*" name="thumbnail" hidden>
+        <input type="number" name="thumbnail_change_flg" value="0" min="0" max="1" id="thumbnail_change_flg" hidden>
+        <label for="thumbnail"><span>開く</span></label><br>
+
         <!-- 記事のタグ -->
         <label>タグ</label>
         <select name="post_type">
@@ -282,7 +343,7 @@ if (isset($post_type)) {
         ?>
             <div id="<?php echo "Box" . strval($cnt); ?>" class="box">
                 <!-- 追加要素選択 -->
-                <select onchange="selectContent(<?php echo $cnt; ?>)">
+                <select onchange="selectContent(<?php echo $cnt; ?>); deletePrev(<?php echo $cnt; ?>);">
                     <option disabled selected>形式を選択してください</option>
                     <option value="subtitle" <?php echo $detail_type_check['subtitle']; ?>>サブタイトル</option>
                     <option value="text" <?php echo $detail_type_check['text']; ?>>テキスト</option>
@@ -291,20 +352,22 @@ if (isset($post_type)) {
 
                 <!-- 画像の場合 -->
                 <?php if ($detail_type['input_type'] === 'file') { ?>
-                    <img src="<?php echo 'images/' . $detail['detail_text']; ?>">
-                    <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
+                    <img src="<?php echo 'images/' . $detail['detail_text']; ?>" id="<?php echo 'image_preview'.strval($cnt) ?>">
+                    <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="imagePreview(this, <?php echo $cnt; ?>)">
                     <label for="<?php echo "file" . $cnt; ?>"><span>開く</span></label>
-                    <input type="hidden" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>">
+                    <input type="text" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>" hidden>
                     <!-- 見出しまたはテキストの場合 -->
                 <?php } else { ?>
+                    <img src="" id="<?php echo 'image_preview'.strval($cnt); ?>" hidden>
                     <input
                         name="<?php echo $detail_type['detail_type'] . strval($cnt); ?>"
                         type="<?php echo $detail_type['input_type']; ?>"
                         value="<?php echo $detail['detail_text']; ?>"
                         class="input">
+                        <input type="text"  id="<?php echo "prevFile" . strval($cnt); ?>" hidden>
                 <?php } ?>
                 <!-- 削除ボタン -->
-                <button type="button" onclick="deleteContent(<?php echo $cnt ?>)">削除</button>
+                <button type="button" onclick="deleteContent(<?php echo $cnt ?>); deletePrev(<?php echo $cnt; ?>);">削除</button>
             </div>
         <?php
             $cnt++;
