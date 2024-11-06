@@ -343,7 +343,7 @@ if (isset($post_type)) {
         ?>
             <div id="<?php echo "Box" . strval($cnt); ?>" class="box">
                 <!-- 追加要素選択 -->
-                <select onchange="selectContent(<?php echo $cnt; ?>)">
+                <select onchange="selectContent(<?php echo $cnt; ?>); deletePrev(<?php echo $cnt; ?>);">
                     <option disabled selected>形式を選択してください</option>
                     <option value="subtitle" <?php echo $detail_type_check['subtitle']; ?>>サブタイトル</option>
                     <option value="text" <?php echo $detail_type_check['text']; ?>>テキスト</option>
@@ -352,20 +352,22 @@ if (isset($post_type)) {
 
                 <!-- 画像の場合 -->
                 <?php if ($detail_type['input_type'] === 'file') { ?>
-                    <img src="<?php echo 'images/' . $detail['detail_text']; ?>">
-                    <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="changeFile(this, <?php echo $cnt; ?>)">
+                    <img src="<?php echo 'images/' . $detail['detail_text']; ?>" id="<?php echo 'image_preview'.strval($cnt) ?>">
+                    <input type="file" accept="image/*" hidden name="<?php echo "file" . strval($cnt); ?>" id="<?php echo "file" . strval($cnt); ?>" class="input" onchange="imagePreview(this, <?php echo $cnt; ?>)">
                     <label for="<?php echo "file" . $cnt; ?>"><span>開く</span></label>
                     <input type="text" value="<?php echo $detail['detail_text']; ?>" name="<?php echo "prevFile" . strval($cnt); ?>" id="<?php echo "prevFile" . strval($cnt); ?>" hidden>
                     <!-- 見出しまたはテキストの場合 -->
                 <?php } else { ?>
+                    <img src="" id="<?php echo 'image_preview'.strval($cnt); ?>" hidden>
                     <input
                         name="<?php echo $detail_type['detail_type'] . strval($cnt); ?>"
                         type="<?php echo $detail_type['input_type']; ?>"
                         value="<?php echo $detail['detail_text']; ?>"
                         class="input">
+                        <input type="text"  id="<?php echo "prevFile" . strval($cnt); ?>" hidden>
                 <?php } ?>
                 <!-- 削除ボタン -->
-                <button type="button" onclick="deleteContent(<?php echo $cnt ?>)">削除</button>
+                <button type="button" onclick="deleteContent(<?php echo $cnt ?>); deletePrev(<?php echo $cnt; ?>);">削除</button>
             </div>
         <?php
             $cnt++;
