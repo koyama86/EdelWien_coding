@@ -3,13 +3,13 @@
 require_once "./db_connect.php";
 
 //SQL文 降順にデータを8つ取得するsql文
-$sql = "SELECT * FROM post ORDER BY post_id DESC LIMIT 8";
+// $sql = "SELECT * FROM post ORDER BY post_id DESC LIMIT 8";
 
-$stm = $pdo->prepare($sql);
+// $stm = $pdo->prepare($sql);
 
-$stm->execute();
+// $stm->execute();
 
-$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+// $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 function h($str)
 {
@@ -272,7 +272,19 @@ function h($str)
         </div>
 
     </main>
-
+    <footer>
+          <div class="Data">
+          </div>
+          <div class="FooterLinks">
+            <p class="FooterLink">TOP</p>
+            <p class="FooterLink">森のくに</p>
+            <p class="FooterLink">ホテルベルン<br />ドルフ</p>
+            <p class="FooterLink">レストランベルン<br />ドルフ</p>
+            <p class="FooterLink">ワインシャトー<br />大迫</p>
+          </div>
+        </footer>
+      </div>
+    </div>
 
     <!-- script -->
     <script src="js/carousel.js"></script>
